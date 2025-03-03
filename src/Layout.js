@@ -9,7 +9,8 @@ import {
   faHome,
   faBook,
   faMoneyBillTransfer,
-  faCalendarAlt, 
+  faCalendarAlt,
+  faUserGraduate, 
 } from '@fortawesome/free-solid-svg-icons';
 
 const Layout = () => {
@@ -57,6 +58,15 @@ const Layout = () => {
                 >
                   <FontAwesomeIcon icon={faBook} className="menu-icon" />
                   Educateurs
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                  to="/eleves"
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                >
+                  <FontAwesomeIcon icon={faUserGraduate} className="menu-icon" />
+                  Elèves
                 </NavLink>
             </li>
             <li>

@@ -1,220 +1,176 @@
 import React, { useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faFilePdf } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilePdf, faDownload } from "@fortawesome/free-solid-svg-icons";
 
-const DetailsProfil = () => {
-  const [pdfUrl, setPdfUrl] = useState("");
+const ProfileCard = () => {
+  const [documentContent, setDocumentContent] = useState("Aucun document");
 
-  const handleViewPdf = (pdfPath) => setPdfUrl(pdfPath);
+  // Fonction pour afficher le document dans la carte vide
+  const handleViewDocument = (doc) => {
+    setDocumentContent(`Contenu du document ${doc}`);
+  };
+
+  // Fonction pour télécharger le document
+  const handleDownload = (doc) => {
+    const element = document.createElement("a");
+    const file = new Blob([`Contenu du document ${doc}`], { type: "application/pdf" });
+    element.href = URL.createObjectURL(file);
+    element.download = `${doc}.pdf`;
+    document.body.appendChild(element); // Nécessaire pour le déclenchement du téléchargement
+    element.click();
+  };
 
   return (
-    <div style={{ textAlign: "center", padding: "2px" }}>
-      <h3 style={{ fontSize: "15px" }}>Verification de profil</h3>
-      <div
-        style={{
-          display: "flex",
-          gap: "15px", // Ajout d’un espacement entre les champs et le frame
-          padding: "10px",
-          maxWidth: "1150px",
-          margin: "auto",
-        }}
-      >
-        {/* Partie gauche avec les champs */}
-        <div
-          style={{
-            flex: "2 1 66%",
-            padding: "6px",
-            borderRadius: "8px",
-            background: "#f9f9f9",
-            boxSizing: "border-box",
-            marginRight: "10px", // Espacement supplémentaire pour éloigner du frame
-          }}
-        >
-          <div style={{ textAlign: "center", marginBottom: "10px" }}>
-            <img
-              src="https://randomuser.me/api/portraits/men/1.jpg"
-              alt="Avatar"
-              style={{ borderRadius: "50%", width: "65px", height: "65px" }}
-            />
-          </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              columnGap: "10px",
-              rowGap: "8px",
-            }}
-          >
-            {[
-              { title: "NPI", value: "76543790" },
-              { title: "État Civil", value: "DOSSOU Franck" },
-              { title: "Email", value: "franckdossou@gmail.com" },
-              { title: "Statut", value: "Nouveau" },
-              { title: "Profession", value: "Enseignant Primaire" },
-              { title: "Adresse", value: "Tokan" },
-              { title: "Téléphone", value: "2345678" },
-              { title: "Statut matrimonial", value: "Célibataire" },
-              { title: "Informations du garant 1", value: "KOKOU Landry" },
-              { title: "Informations du garant 2", value: "ZALOITR Iramoe" },
-            ].map((info, i) => (
-              <div key={i} style={{ fontSize: "13px", textAlign: "left" }}>
-                <label
-                  htmlFor={info.title}
-                  style={{
-                    display: "block",
-                    fontSize: "10px",
-                    fontWeight: "bold",
-                    marginBottom: "4px",
-                    color: "black",
-                  }}
-                >
-                  {info.title}
-                </label>
-                <input
-                  id={info.title}
-                  type="text"
-                  placeholder={info.title}
-                  value={info.value}
-                  style={{
-                    width: "96%",
-                    height: 20,
-                    padding: "5px",
-                    fontSize: "12px",
-                    border: "1px solid #ccc",
-                    borderRadius: "5px",
-                    backgroundColor: "#f9f9f9",
-                  }}
-                  readOnly
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* Boutons Documents sur une ligne */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "5px",
-              marginTop: "5px",
-            }}
-          >
-            {[
-              "Garant 1"," Garant 2","Carte d'Identité.pdf", "Casier Judiciaire.pdf",
-            ].map((doc, i) => (
-              <div
-                key={i}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  background: "#ff9800",
-                  padding: "3px",
-                  borderRadius: "6px",
-                }}
-              >
-                <span style={{ flex: 1, fontSize: "12px", color: "white" }}>{doc}</span>
-                <button
-                  onClick={() => handleViewPdf("/path_to.pdf")}
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    height: 15,
-                    marginRight: "5px",
-                    cursor: "pointer",
-                    fontSize: "10px",
-                    color: "white",
-                    padding: "0px",
-                    borderRadius: "6px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <FontAwesomeIcon icon={faFilePdf} />
-                </button>
-                <a href="/path_to.pdf" download style={{ textDecoration: "none" }}>
-                  <button
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      padding: "6px",
-                      borderRadius: "6px",
-                      cursor: "pointer",
-                      color: "white",
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faDownload} />
-                  </button>
-                </a>
-              </div>
-            ))}
+    <div style={styles.container}>
+      <div style={styles.card}>
+        {/* Section Profil */}
+        <div style={styles.profileSection}>
+          <img
+            src="https://i.postimg.cc/3NBFwXJw/cv-Ifzc-NECNm3i-VG6-On-Ly9-T.png"
+            alt="Profile"
+            style={styles.profileImage}
+          />
+          <div style={styles.profileInfo}>
+            <p><strong>NPI : </strong> 5476543790</p>
+            <p><strong>Etat Civil : </strong> DOSSOU Franck</p>
+            <p><strong>Email : </strong> franckdossou@gmail.com</p>
+            <p><strong>Adresse : </strong> Abomey Calavi</p>
+            <p><strong>Téléphone : </strong> 0154035660</p>
+            <p><strong>Situation matrimoniale : </strong> Célibataire</p>
           </div>
         </div>
 
-        {/* Partie droite avec l'iframe */}
-        <div
-          style={{
-            flex: "1 1 33%",
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            minHeight: "230px",
-            padding: "10px",
-            background: "#fff",
-            boxSizing: "border-box",
-          }}
-        >
-          {pdfUrl ? (
-            <iframe
-              src={pdfUrl}
-              title="Aperçu PDF"
-              width="100%"
-              height="100%"
-              style={{ border: "none" }}
-            ></iframe>
-          ) : (
-            <p style={{ textAlign: "center", fontSize: "13px", color: "#888" }}>Aucun document</p>
-          )}
+        {/* Section Documents */}
+        <div style={styles.documentSection}>
+          {["Carte d’Identité ou CIP", "Casier Judiciaire", "Garant 1 - IBODOUN Blaise", "Garant 2 - KOUYAMI Sénan"].map((doc, index) => (
+            <div key={index} style={styles.document}>
+              <p><strong>{doc}</strong></p>
+              <div>
+                <FontAwesomeIcon
+                  icon={faFilePdf}
+                  style={styles.icon}
+                  onClick={() => handleViewDocument(doc)}
+                />
+                <FontAwesomeIcon
+                  icon={faDownload}
+                  style={styles.icon}
+                  onClick={() => handleDownload(doc)}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Boutons */}
+        <div style={styles.buttonGroup}>
+          <button style={styles.rejectButton}>Rejeter le profil</button>
+          <button style={styles.acceptButton}>Valider le profil</button>
         </div>
       </div>
 
-      <Link to="/profil">
-      <button
-        style={{
-          background: "#004aad",
-          color: "white",
-          padding: "9px",
-          marginTop: "0px",
-          width: "20%",
-          border: "none",
-          borderRadius: "6px",
-          fontSize: "12px",
-          marginRight: "30px", // Espacement entre les boutons
-        }}
-      >
-        Valider
-      </button>
-      </Link>
-
-      <Link to="/profil">
-      <button
-        style={{
-          background: "#d32f2f",
-          color: "white",
-          padding: "9px",
-          marginTop: "2px",
-          width: "20%",
-          border: "none",
-          borderRadius: "6px",
-          fontSize: "12px",
-        }}
-      >
-        Rejeter
-      </button>
-      </Link>
-
+      {/* Deuxième carte qui est vide */}
+      <div style={styles.emptyCard}>
+        <p>{documentContent}</p>
+      </div>
     </div>
   );
 };
 
-export default DetailsProfil;
+// Définition du style CSS directement dans l'objet styles
+const styles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "80vh",
+    width: "100%",
+  },
+  card: {
+    background: "",
+    padding: "15px",
+    borderRadius: "8px",
+    width: "650px",
+    marginRight: "15px",
+    display: "flex",
+    flexDirection: "column",
+    height: "80vh",
+  },
+  profileSection: {
+    display: "flex",
+    alignItems: "center",
+    background: "white",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
+    padding: "10px",
+    borderRadius: "8px",
+  },
+  profileImage: {
+    width: "150px",
+    height: "150px",
+    borderRadius: "8px",
+    objectFit: "cover",
+    marginRight: "30px",
+    padding: "30px"
+  },
+  profileInfo: {
+    marginLeft: "20px",
+    fontSize: "14px"
+  },
+  documentSection: {
+    marginTop: "15px",
+    background: "white",
+    padding: "12px",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
+  },
+  document: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "8px",
+    height: "6vh",
+    fontSize: "14px",
+  },
+  icon: {
+    fontSize: "20px",
+    color: "orange",
+    marginLeft: "10px",
+    cursor: "pointer",
+  },
+  buttonGroup: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: "15px",
+  },
+  rejectButton: {
+    background: "red",
+    color: "white",
+    border: "none",
+    padding: "10px",
+    width: "48%",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+  acceptButton: {
+    background: "green",
+    color: "white",
+    border: "none",
+    padding: "10px",
+    width: "48%",
+    borderRadius: "5px",
+    cursor: "pointer",
+  },
+  emptyCard: {
+    background: "white",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
+    flexGrow: 1,
+    height: "75vh",
+    padding: "20px",
+    overflowY: "auto",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+};
+
+export default ProfileCard;

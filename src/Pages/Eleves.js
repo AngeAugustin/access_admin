@@ -1,13 +1,13 @@
 import React from "react";
 
-const Educateurs = () => {
+const Eleves = () => {
   return (
     <div style={{ padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Educateurs</h2>
+        <h2 style={{ margin: 0, fontSize: 18 }}>Elèves</h2>
         <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
-          Gérer les éducateurs
+          Gérer les élèves
         </p>
       </div>
 
@@ -18,24 +18,24 @@ const Educateurs = () => {
 
       <div style={{ height: "10px" }}></div>
 
-      {/* List of educators */}
+      {/* List of students */}
       {[
         {
-          name: "FACHEHOUN Augustin",
-          role: "Enseignant de Mathématiques",
+          name: "KOLA Saroo",
+          classe: "CM2",
           avatar: "https://via.placeholder.com/50",
         },
         {
-          name: "FACHEHOUN Augustin",
-          role: "Enseignant de Mathématiques",
+          name: "ILOSIWAJU Bernice",
+          classe: "1ère",
           avatar: "https://via.placeholder.com/50",
         },
         {
-          name: "FACHEHOUN Augustin",
-          role: "Enseignant de Mathématiques",
+          name: "XALOGUN Bashorun",
+          classe: "2nde",
           avatar: "https://via.placeholder.com/50",
         },
-      ].map((educator, index) => (
+      ].map((student, index) => (
         <div
           key={index}
           style={{
@@ -51,13 +51,13 @@ const Educateurs = () => {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              src={educator.avatar}
+              src={student.avatar}
               alt="avatar"
               style={{ width: 50, height: 50, borderRadius: "50%", marginRight: "10px" }}
             />
             <div>
-              <p style={{ margin: 0, fontWeight: "bold" }}>{educator.name}</p>
-              <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{educator.role}</p>
+              <p style={{ margin: 0, fontWeight: "bold" }}>{student.name}</p>
+              <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{student.classe}</p>
             </div>
           </div>
           <button
@@ -78,4 +78,4 @@ const Educateurs = () => {
   );
 };
 
-export default Educateurs;
+export default Eleves;
