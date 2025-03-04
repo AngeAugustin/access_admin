@@ -75,7 +75,7 @@ const Inscription = () => {
   return (
     <div style={{ display: 'flex', height: '97vh', width: '210vh', backgroundColor: '#F4F4F4' }}>
       <div style={{ flex: 1, backgroundColor: '#f1f1f0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-        <img src="https://i.postimg.cc/ZYQ9b9g6/Accueil.png" alt="Access" style={{ width: '80%', marginTop: 30 }} />
+        <img src="https://i.postimg.cc/MKCL3Xwx/ff.webp" alt="Access" style={{ width: '80%', marginTop: 30 }} />
       </div>
       <div style={{ flex: 1, backgroundColor: '#fff', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
         <div style={{ textAlign: 'center' }}>

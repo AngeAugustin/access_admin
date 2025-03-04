@@ -80,7 +80,7 @@ const Connexion = () => {
         
         {/* Contenu central */}
         <img
-          src="https://i.postimg.cc/ZYQ9b9g6/Accueil.png" 
+          src="https://i.postimg.cc/MKCL3Xwx/ff.webp" 
           alt="Colis"
           style={{ width: '80%', marginTop: 30 }}
         />
