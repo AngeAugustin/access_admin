@@ -12,6 +12,8 @@ import Paiements from './Pages/Paiements';
 import Seances from './Pages/Seances';
 import Eleves from './Pages/Eleves';
 import DetailsParent from './Pages/DetailsParent';
+import DetailsEducateur from './Pages/DetailsEducateur';
+import DetailsEleve from './Pages/DetailsEleve';
 import Layout from './Layout'; 
 import './index.css';
 
@@ -36,6 +38,8 @@ function App() {
             <Route path="Seances" element={<Seances />} />
             <Route path="Eleves" element={<Eleves />} />
             <Route path="DetailsParent" element={<DetailsParent />} />
+            <Route path="DetailsEducateur" element={<DetailsEducateur />} />
+            <Route path="DetailsEleve" element={<DetailsEleve />} />
           </Route>
         </Routes>
       </BrowserRouter>

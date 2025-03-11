@@ -41,7 +41,7 @@ const Profil = () => {
     <div style={{padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0,fontSize: 18 }}>Profil </h2>
+        <h2 style={{ margin: 0,fontSize: 16 }}>Profil </h2>
         <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>Gérer les profils</p>
       </div>
 

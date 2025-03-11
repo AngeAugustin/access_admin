@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Eleves = () => {
   return (
     <div style={{ padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Elèves</h2>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Elèves</h2>
         <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
           Gérer les élèves
         </p>
@@ -43,6 +44,7 @@ const Eleves = () => {
             alignItems: "center",
             justifyContent: "space-between",
             background: "#fff",
+            fontSize: "14px",
             padding: "15px",
             borderRadius: "8px",
             marginBottom: "10px",
@@ -60,6 +62,7 @@ const Eleves = () => {
               <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{student.classe}</p>
             </div>
           </div>
+          <Link to="/DetailsEleve">
           <button
             style={{
               background: "#004aad",
@@ -72,6 +75,7 @@ const Eleves = () => {
           >
             Voir les détails
           </button>
+          </Link>
         </div>
       ))}
     </div>

@@ -40,7 +40,7 @@ const Paiements = () => {
     <div style={{padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Paiements</h2>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Paiements</h2>
         <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>Gérer les paiements</p>
       </div>
 
@@ -93,6 +93,7 @@ const Paiements = () => {
               backgroundColor: "#ffffff",
               padding: "15px",
               borderRadius: "8px",
+              fontSize: "14px",
               marginBottom: "10px",
               border: "1px solid #fff",
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",

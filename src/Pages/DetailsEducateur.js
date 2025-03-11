@@ -1,11 +1,11 @@
 import React from "react";
 
-const DetailsParent = () => {
+const DetailsEducateur = () => {
   return (
     <div style={{ padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Détails du parent</h2>
+        <h2 style={{ margin: 0, fontSize: 18 }}>Détails de l'éducateur</h2>
       </div>
 
       <div style={{ height: "5px" }}></div>
@@ -35,6 +35,8 @@ const DetailsParent = () => {
           <p><strong>État Civil : </strong> DOSSOU Franck</p>
           <p><strong>Email : </strong> franckdossou@gmail.com</p>
           <p><strong>Adresse : </strong> Abomey Calavi</p>
+          
+          
         </div>
       </div>
 
@@ -55,24 +57,29 @@ const DetailsParent = () => {
             gap: "70px",
           }}
         >
-          {/* Enfants */}
+          {/* Parcours */}
           <div>
-            <h3 style={{ color: "#004aad", fontSize: "16px" }}>Mes enfants</h3>
-            <ul>
-              <li>DOSSOU Emma - 6ème</li>
-              <li>DOSSOU Bashorun - 1ère</li>
-              <li>BADA Claire - 2nde</li>
-            </ul>
+            <h3 style={{ color: "#004aad", fontSize: "16px" }}>Parcours</h3>
+            <p><strong>Matière : </strong> Mathématiques </p>
+            <p><strong>Expérience : </strong> 12 années </p>
+            <p><strong>Parcours : </strong> Ste Bakhita - CEG 1 Abomey Calavi - CPEG L'entente </p>
           </div>
 
-          {/* Éducateurs & Accompagnateurs */}
+          {/* Elèves et Mode Accompagnateur */}
           <div>
-            <h3 style={{ color: "#004aad", fontSize: "16px" }}>Mes éducateurs & Accompagnateurs</h3>
+
+            <h3 style={{ color: "#004aad", fontSize: "16px" }}>Elèves actuels & Durée du tutorat</h3>
             <ul>
-              <li>XALOGUN Yves - Mathématiques</li>
-              <li>ZINSOU Wenceslas - PCT</li>
-              <li>GBEDOU Xavier - SVT</li>
+              <li>DOSSOU Emma - 6ème - 2 mois</li>
+              <li>DOSSOU Bashorun - 1ère - 3 mois</li>
+              <li>BADA Claire - 2nde - 2 mois </li>
+            </ul> 
+
+            <h3 style={{ color: "#004aad" }}>Mode Accompagnateur & Durée du tutorat </h3>
+            <ul>
+              <li>Maison FAYOMI André - 7 mois</li>
             </ul>
+
           </div>
         </div>
       </div>
@@ -80,4 +87,4 @@ const DetailsParent = () => {
   );
 };
 
-export default DetailsParent;
+export default DetailsEducateur;

@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Educateurs = () => {
   return (
     <div style={{ padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Educateurs</h2>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Educateurs</h2>
         <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
           Gérer les éducateurs
         </p>
@@ -43,6 +44,7 @@ const Educateurs = () => {
             alignItems: "center",
             justifyContent: "space-between",
             background: "#fff",
+            fontSize: "14px",
             padding: "15px",
             borderRadius: "8px",
             marginBottom: "10px",
@@ -60,6 +62,7 @@ const Educateurs = () => {
               <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{educator.role}</p>
             </div>
           </div>
+          <Link to="/DetailsEducateur">
           <button
             style={{
               background: "#004aad",
@@ -72,6 +75,8 @@ const Educateurs = () => {
           >
             Voir les détails
           </button>
+          </Link>
+          
         </div>
       ))}
     </div>

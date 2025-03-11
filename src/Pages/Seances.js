@@ -11,7 +11,7 @@ const Seances = () => {
           marginBottom: "20px",
         }}
       >
-        <h2 style={{ margin: 0, fontSize: 18 }}>Séances</h2>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Séances</h2>
         <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14  }}>Gérer les seances</p>
       </div>
 

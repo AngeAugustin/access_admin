@@ -6,7 +6,7 @@ const Parents = () => {
     <div style={{ padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Parents</h2>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Parents</h2>
         <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
           Gérer les parents
         </p>
@@ -47,6 +47,7 @@ const Parents = () => {
             padding: "15px",
             borderRadius: "8px",
             marginBottom: "10px",
+            fontSize: "14px",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
           }}
         >
