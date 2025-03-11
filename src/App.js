@@ -28,7 +28,7 @@ function App() {
 
           {/* Routes protégées avec Layout */}
           <Route path="/" element={<Layout />}>
-          <Route index element={<Notifications />} />
+          <Route index element={<Profil />} />
             <Route path="Notifications" element={<Notifications />} />
             <Route path="Profil" element={<Profil />} />
             <Route path="DetailsProfil" element={<DetailsProfil />} />
