@@ -1,8 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-const DetailsEducateur = () => {
+const DetailsEleve = () => {
   const [showParcours, setShowParcours] = useState(false);
   const [showProfilpsycho, setShowProfilpsycho] = useState(false);
+  const [details, setDetails] = useState({});
+  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const NPI_enfant = queryParams.get("NPI_enfant");
+  const avatarGarcon = "https://i.postimg.cc/7Yks2MRJ/gar-on.jpg";
+  const avatarFille = "https://i.postimg.cc/6p6MH6t9/fille.jpg";
+
+  useEffect(() => {
+    if (NPI_enfant) {
+      fetch(`https://access-backend-a961a1f4abb2.herokuapp.com/api/get_enfant/${NPI_enfant}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setDetails(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    }
+  }, [NPI_enfant]); 
+
+  if (loading) {
+    return <p>Chargement des données...</p>;
+  }
 
   return (
     <div style={{ padding: "20px" }}>
@@ -26,15 +53,15 @@ const DetailsEducateur = () => {
         }}
       >
         <img
-          src="https://i.postimg.cc/3NBFwXJw/cv-Ifzc-NECNm3i-VG6-On-Ly9-T.png"
-          alt="Franck DOSSOU"
-          style={{ width: 120, height: 120, borderRadius: "10%" }}
-        />
+              src={details.Sexe_enfant === "M" ? avatarGarcon : avatarFille}
+              alt="avatar"
+              style={{ width: 120, height: 120, borderRadius: "50%", marginRight: "10px" }}
+            />
         <div>
-          <p><strong>NPI : </strong> 7654379056</p>
-          <p><strong>État Civil : </strong> DOSSOU Franck</p>
-          <p><strong>Age : </strong> 14 ans</p>
-          <p><strong>Sexe : </strong> Masculin </p>
+          <p><strong>NPI de l'enfant : </strong> {details.NPI_enfant}</p>
+          <p><strong>État Civil : </strong> {details.Nom_enfant} {details.Prenom_enfant}</p>
+          <p><strong>Date de naissance : </strong> {details.Date_naissance}</p>
+          <p><strong>Sexe : </strong> {details.Sexe_enfant}</p>
         </div>
       </div>
 
@@ -58,10 +85,9 @@ const DetailsEducateur = () => {
           {/* Informations */}
           <div>
             <h3 style={{ color: "#004aad", fontSize: "16px" }}>Quelques informations</h3>
-            <p><strong>Parent : </strong> FASSINOU Georges </p>
-            <p><strong>Adresse : </strong> Québec, Canada </p>
-            <p><strong>Classe Actuelle : </strong> 4ème </p>
-            <p><strong>Etablissement Actuel : </strong> CPEG Brice Sinsin </p>
+            <p><strong>Parent : </strong> {details.Parent_tuteur}</p>
+            <p><strong>Classe Actuelle : </strong> {details.Classe_actuelle}</p>
+            <p><strong>Établissement Actuel : </strong> {details.Ecole_actuelle}</p>
           </div>
 
           {/* Parcours et Profil psychologique */}
@@ -74,7 +100,7 @@ const DetailsEducateur = () => {
               Voir le menu
             </button>
 
-            <h3 style={{ color: "#004aad", fontSize: "16px" }}> Profil psychologique </h3>
+            <h3 style={{ color: "#004aad", fontSize: "16px" }}>Profil psychologique</h3>
             <button
               style={buttonStyle}
               onClick={() => setShowProfilpsycho(true)}
@@ -92,17 +118,17 @@ const DetailsEducateur = () => {
             <h2 style={{ color: "#004aad", marginBottom: "20px", fontSize: "14px" }}>Parcours</h2>
             <form style={{ width: '100%', maxWidth: 400 }}>
               {[
-                { label: "Moyenne en Français", value: 14 },
-                { label: "Moyenne en Anglais", value: 17 },
-                { label: "Moyenne en Philosophie", value: 14 },
-                { label: "Moyenne en SVT", value: 14 },
-                { label: "Moyenne en PCT", value: 16 },
-                { label: "Moyenne en Mathématiques", value: 15 },
-                { label: "Moyenne en Histoire et Géographie", value: 14 },
-                { label: "Moyenne en Allemand", value: 14 },
-                { label: "Moyenne en Espagnol", value: 14 },
-                { label: "Classe précédemment fréquenté", value: "5ème" },
-                { label: "Ecole précédemment fréquentée", value: "Jean Piaget 2" },
+                { label: "Moyenne en Français", value: details.Niveau_francais },
+                { label: "Moyenne en Anglais", value: details.Niveau_anglais },
+                { label: "Moyenne en Philosophie", value: details.Niveau_philosophie },
+                { label: "Moyenne en SVT", value: details.Niveau_svt },
+                { label: "Moyenne en PCT", value: details.Niveau_pct },
+                { label: "Moyenne en Mathématiques", value: details.Niveau_mathematique },
+                { label: "Moyenne en Histoire et Géographie", value: details.Niveau_histegeo },
+                { label: "Moyenne en Allemand", value: details.Niveau_allemand },
+                { label: "Moyenne en Espagnol", value: details.Niveau_espagnol },
+                { label: "Classe précédemment fréquentée", value: details.Classe_precedente },
+                { label: "École précédemment fréquentée", value: details.Ecole_precedente },
               ].map((field, index) => (
                 <div key={index} style={{ width: "100%", marginBottom: "10px" }}>
                   <label style={labelStyle}>{field.label} :</label>
@@ -129,9 +155,9 @@ const DetailsEducateur = () => {
             <h2 style={{ color: "#004aad", marginBottom: "20px", fontSize: "14px" }}>Profil psychologique</h2>
             <form style={{ width: '100%', maxWidth: 400 }}>
               {[
-                { label: "Parent ou Tuteur", value: "Père" },
-                { label: "Matières préférées", value: "SVT car elle traite de l'anatomie. " },
-                { label: "Cntre d'intérêts", value: "Mangas, Sport, Football" },
+                { label: "Parent ou Tuteur", value: details.Parent_tuteur },
+                { label: "Matières préférées", value: details.Matieres_preferes },
+                { label: "Centre d'intérêts", value: details.Centre_interet },
               ].map((field, index) => (
                 <div key={index} style={{ width: "100%", marginBottom: "10px" }}>
                   <label style={labelStyle}>{field.label} :</label>
@@ -150,8 +176,6 @@ const DetailsEducateur = () => {
           </div>
         </div>
       )}
-
-
     </div>
   );
 };
@@ -227,4 +251,4 @@ const closeButtonStyle = {
   boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
 };
 
-export default DetailsEducateur;
+export default DetailsEleve;

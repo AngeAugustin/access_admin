@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Eleves = () => {
   const [enfants, setEnfants] = useState([]);
 
-  const avatarGarcon = "https://i.postimg.cc/7Yks2MRJ/gar-on.jpg";
+  const avatarGarcon = "https://i.postimg.cc/7Yks2MRJ/gar-on.jpg"; 
   const avatarFille = "https://i.postimg.cc/6p6MH6t9/fille.jpg";
 
   // Récupérer les produits depuis l'API
@@ -65,7 +65,7 @@ const Eleves = () => {
               </p>
             </div>
           </div>
-          <Link to={`/DetailsEleve/${enfant.NPI_enfant}`}>
+          <Link to={`/DetailsEleve?NPI_enfant=${enfant.NPI_enfant}`}>
             <button
               style={{
                 background: "#004aad",

@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Educateurs = () => {
+  const [educateurs, setEducateurs] = useState([]);
+
+  useEffect(() => {
+      fetch(`https://access-backend-a961a1f4abb2.herokuapp.com/api/get_all_educateurs`)
+        .then((res) => res.json())
+        .then((data) => {
+          setEducateurs(data);
+        })
+        .catch((err) => console.log(err));
+    }, []);
+
   return (
     <div style={{ padding: "20px" }}>
       {/* Header section */}
@@ -20,23 +31,7 @@ const Educateurs = () => {
       <div style={{ height: "10px" }}></div>
 
       {/* List of educators */}
-      {[
-        {
-          name: "FACHEHOUN Augustin",
-          role: "Enseignant de Mathématiques",
-          avatar: "https://via.placeholder.com/50",
-        },
-        {
-          name: "FACHEHOUN Augustin",
-          role: "Enseignant de Mathématiques",
-          avatar: "https://via.placeholder.com/50",
-        },
-        {
-          name: "FACHEHOUN Augustin",
-          role: "Enseignant de Mathématiques",
-          avatar: "https://via.placeholder.com/50",
-        },
-      ].map((educator, index) => (
+      {educateurs.map((educateur, index) => (
         <div
           key={index}
           style={{
@@ -53,16 +48,16 @@ const Educateurs = () => {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              src={educator.avatar}
+              src={educateur.avatar}
               alt="avatar"
               style={{ width: 50, height: 50, borderRadius: "50%", marginRight: "10px" }}
             />
             <div>
-              <p style={{ margin: 0, fontWeight: "bold" }}>{educator.name}</p>
-              <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{educator.role}</p>
+              <p style={{ margin: 0, fontWeight: "bold" }}>{educateur.Name} {educateur.Firstname}</p>
+              <p style={{ margin: 0, color: "#666", fontSize: "14px" }}> Enseignant en {educateur.Matiere}</p>
             </div>
           </div>
-          <Link to="/DetailsEducateur">
+          <Link to={`/DetailsEducateur?NPI=${educateur.NPI}`}>
           <button
             style={{
               background: "#004aad",

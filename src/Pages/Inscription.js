@@ -10,6 +10,7 @@ const Inscription = () => {
   const [Email, setEmail] = useState('');
   const [Telephone, setTelephone] = useState('');
   const [Password, setPassword] = useState('');
+  const [Adresse, setAdresse] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -27,7 +28,7 @@ const Inscription = () => {
     setErrorMessage('');
     setSuccessMessage('');
 
-    if (!NPI || !Name || !Firstname || !Email || !Telephone || !Password || !ConfirmPassword) {
+    if (!NPI || !Name || !Firstname || !Email || !Telephone || !Adresse || !Password || !ConfirmPassword) {
       setErrorMessage('Veuillez remplir tous les champs.');
       return;
     }
@@ -47,6 +48,7 @@ const Inscription = () => {
       Email,
       Password,
       Username,
+      Adresse,
       Role: 'ADMIN',
     };
 
@@ -91,7 +93,7 @@ const Inscription = () => {
           <input type="text" placeholder="Prénoms" value={Firstname} onChange={(e) => setFirstname(e.target.value)} style={inputStyle} />
           <input type="email" placeholder="Email" value={Email} onChange={(e) => setEmail(e.target.value)} style={inputStyle} />
           <input type="tel" placeholder="Téléphone" value={Telephone} onChange={(e) => setTelephone(e.target.value)} style={inputStyle} />
-
+          <input type="adresse" placeholder="Adresse" value={Adresse} onChange={(e) => setAdresse(e.target.value)} style={inputStyle} />
           {/* Champ Mot de Passe avec icône */}
           <div style={passwordContainerStyle}>
             <input

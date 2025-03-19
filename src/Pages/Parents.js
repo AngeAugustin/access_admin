@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Parents = () => {
+  const [parents, setParents] = useState([]);
+
+  useEffect(() => {
+        fetch(`https://access-backend-a961a1f4abb2.herokuapp.com/api/get_all_parents`)
+          .then((res) => res.json())
+          .then((data) => {
+            setParents(data);
+          })
+          .catch((err) => console.log(err));
+      }, []);
+
   return (
     <div style={{ padding: "20px" }}>
       {/* Header section */}
@@ -20,23 +31,7 @@ const Parents = () => {
       <div style={{ height: "10px" }}></div>
 
       {/* List of parents */}
-      {[
-        {
-          name: "KOLA Saroo",
-          nbreEnfant: 3,
-          avatar: "https://via.placeholder.com/50",
-        },
-        {
-          name: "ILOSIWAJU Bernice",
-          nbreEnfant: 3,
-          avatar: "https://via.placeholder.com/50",
-        },
-        {
-          name: "XALOGUN Bashorun",
-          nbreEnfant: 5,
-          avatar: "https://via.placeholder.com/50",
-        },
-      ].map((parent, index) => (
+      {parents.map((parent, index) => (
         <div
           key={index}
           style={{
@@ -58,11 +53,11 @@ const Parents = () => {
               style={{ width: 50, height: 50, borderRadius: "50%", marginRight: "10px" }}
             />
             <div>
-              <p style={{ margin: 0, fontWeight: "bold" }}>{parent.name}</p>
-              <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{parent.nbreEnfant} enfants</p>
+              <p style={{ margin: 0, fontWeight: "bold" }}>{parent.Name} {parent.Firstname}</p>
+              <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>{parent.Nombre_enfants} enfants</p>
             </div>
           </div>
-          <Link to="/DetailsParent">
+          <Link to={`/DetailsParent?NPI=${parent.NPI}`}>
           <button
             style={{
               background: "#004aad",

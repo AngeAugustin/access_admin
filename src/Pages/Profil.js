@@ -1,41 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-const profils = [
-  {
-    id: 1,
-    nom: "FACHEHOUN Augustin",
-    fonction: "Enseignant de Mathématiques",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-    statut: "Nouveau",
-  },
-  {
-    id: 2,
-    nom: "FACHEHOUN Augustin",
-    fonction: "Enseignant de Mathématiques",
-    avatar: "https://randomuser.me/api/portraits/men/2.jpg",
-    statut: "Nouveau",
-  },
-  {
-    id: 3,
-    nom: "FACHEHOUN Augustin",
-    fonction: "Enseignant de Mathématiques",
-    avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-    statut: "Vérifié",
-  },
-  {
-    id: 4,
-    nom: "FACHEHOUN Augustin",
-    fonction: "Enseignant de Mathématiques",
-    avatar: "", // Pas d'avatar => image par défaut
-    statut: "Nouveau",
-  },
-];
 
 const defaultAvatar = "https://via.placeholder.com/40"; // Avatar par défaut
 
 const Profil = () => {
   const [statutActif, setStatutActif] = useState("Nouveau");
+  const [educateurs, setEducateurs] = useState([]);
+
+  useEffect(() => {
+        fetch(`https://access-backend-a961a1f4abb2.herokuapp.com/api/get_all_educateurs`)
+          .then((res) => res.json())
+          .then((data) => {
+            setEducateurs(data);
+          })
+          .catch((err) => console.log(err));
+      }, []);
 
   return (
     <div style={{padding: "20px" }}>
@@ -82,11 +61,11 @@ const Profil = () => {
       </div>
 
       {/* Liste des profils filtrés */}
-      {profils
-        .filter((profil) => profil.statut === statutActif)
-        .map((profil) => (
+      {educateurs
+        .filter((educateur) => educateur.Statut_profil === statutActif)
+        .map((educateur) => (
           <div
-            key={profil.id}
+            key={educateur.NPI}
             style={{
               display: "flex",
               alignItems: "center",
@@ -101,7 +80,7 @@ const Profil = () => {
           >
             <div style={{ display: "flex", alignItems: "center" }}>
               <img
-                src={profil.avatar || defaultAvatar}
+                src={educateur.avatar || defaultAvatar}
                 alt="Avatar"
                 style={{
                   width: "40px",
@@ -112,14 +91,14 @@ const Profil = () => {
                 }}
               />
               <div>
-                <strong style={{ fontSize: 14 }} >{profil.nom}</strong>
-                <p style={{ margin: 0, color: "#666", fontSize: 12 }}>{profil.fonction}</p>
+                <strong style={{ fontSize: 14 }} >{educateur.Name} {educateur.Firstname}</strong>
+                <p style={{ margin: 0, color: "#666", fontSize: 12 }}>Enseignant en {educateur.Matiere}</p>
               </div>
             </div>
-            <Link to="/DetailsProfil">
+            <Link to={`/DetailsEducateur?NPI=${educateur.NPI}`}>
             <button
               style={{
-                backgroundColor: profil.statut === "Vérifié" ? "orange" : "#004aad",
+                backgroundColor: educateur.Statut_profil === "Vérifié" ? "orange" : "#004aad",
                 color: "white",
                 border: "none",
                 fontWeight: "bold",
