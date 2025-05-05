@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-const defaultAvatar = "https://via.placeholder.com/40"; // Avatar par défaut
+const defaultAvatar = "https://i.postimg.cc/Y9wnm83h/instabutton-png-design-5690390.png"; // Avatar par défaut
 
 const Profil = () => {
-  const [statutActif, setStatutActif] = useState("Nouveau");
+  const [statutActif, setStatutActif] = useState("Nouveau"); // Le statut actif initial est "Nouveau"
   const [educateurs, setEducateurs] = useState([]);
 
   useEffect(() => {
-        fetch(`https://access-backend-a961a1f4abb2.herokuapp.com/api/get_all_educateurs`)
-          .then((res) => res.json())
-          .then((data) => {
-            setEducateurs(data);
-          })
-          .catch((err) => console.log(err));
-      }, []);
+    fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_educ_backend`)
+      .then((res) => res.json())
+      .then((data) => {
+        setEducateurs(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
-    <div style={{padding: "20px" }}>
+    <div style={{ padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0,fontSize: 16 }}>Profil </h2>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Profil</h2>
         <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>Gérer les profils</p>
       </div>
 
@@ -39,7 +38,7 @@ const Profil = () => {
           marginBottom: "20px",
         }}
       >
-        {["Nouveau", "Vérifié"].map((statut) => (
+        {["Nouveau", "Vérifié", "Rejeté"].map((statut) => (
           <button
             key={statut}
             onClick={() => setStatutActif(statut)}
@@ -55,7 +54,7 @@ const Profil = () => {
               transition: "0.3s",
             }}
           >
-            {statut === "Nouveau" ? "Nouveaux" : "Vérifiés"}
+            {statut === "Nouveau" ? "Nouveaux" : statut === "Vérifié" ? "Vérifiés" : "Rejetés"}
           </button>
         ))}
       </div>
@@ -91,26 +90,34 @@ const Profil = () => {
                 }}
               />
               <div>
-                <strong style={{ fontSize: 14 }} >{educateur.Name} {educateur.Firstname}</strong>
-                <p style={{ margin: 0, color: "#666", fontSize: 12 }}>Enseignant en {educateur.Matiere}</p>
+                <strong style={{ fontSize: 14 }}>
+                  {educateur.Name} {educateur.Firstname}
+                </strong>
+                <p style={{ margin: 0, color: "#666", fontSize: 12 }}>
+                  Enseignant en {educateur.Matiere}
+                </p>
               </div>
             </div>
-            <Link to={`/DetailsEducateur?NPI=${educateur.NPI}`}>
-            <button
-              style={{
-                backgroundColor: educateur.Statut_profil === "Vérifié" ? "orange" : "#004aad",
-                color: "white",
-                border: "none",
-                fontWeight: "bold",
-                padding: "10px 15px",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Voir les détails
-            </button>
+            <Link to={`/DetailsProfil?NPI=${educateur.NPI}`}>
+              <button
+                style={{
+                  backgroundColor:
+                    educateur.Statut_profil === "Vérifié"
+                      ? "green"
+                      : educateur.Statut_profil === "Rejeté"
+                      ? "red"
+                      : "#004aad",
+                  color: "white",
+                  border: "none",
+                  fontWeight: "bold",
+                  padding: "10px 15px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Voir les détails
+              </button>
             </Link>
-            
           </div>
         ))}
     </div>

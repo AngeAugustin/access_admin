@@ -29,7 +29,7 @@ const Layout = () => {
           </div>
         </div>
       </header>
-
+ 
       {/* Barre latérale */}
       <aside className="sidebar">
         <div className="sidebar-header" style={{ marginBottom: '10px' }}>

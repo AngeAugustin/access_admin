@@ -53,7 +53,7 @@ const Inscription = () => {
     };
 
     try {
-      const response = await fetch('https://access-backend-a961a1f4abb2.herokuapp.com/api/register', {
+      const response = await fetch('https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/register', {
         method: 'POST',
         body: JSON.stringify(myInscription),
         headers: {

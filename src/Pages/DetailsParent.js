@@ -1,6 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const DetailsParent = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const NPI = searchParams.get("NPI");
+
+  const [parentData, setParentData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetching parent details from API
+  useEffect(() => {
+    const fetchParentDetails = async () => {
+      try {
+        const response = await fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_parents_details/${NPI}`);
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des données');
+        }
+        const data = await response.json();
+        setParentData(data.data); // On assigne les données récupérées
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (NPI) {
+      fetchParentDetails();
+    }
+  }, [NPI]);
+
+  if (loading) {
+    return <div>Chargement...</div>;
+  }
+
+  if (error) {
+    return <div>Erreur : {error}</div>;
+  }
+
+  if (!parentData) {
+    return <div>Aucun détail trouvé pour ce parent.</div>;
+  }
+
+  const { parent, enfants, educateurs } = parentData;
+
   return (
     <div style={{ padding: "20px" }}>
       {/* Header section */}
@@ -24,17 +69,17 @@ const DetailsParent = () => {
       >
         {/* Parent image */}
         <img
-          src="https://i.postimg.cc/3NBFwXJw/cv-Ifzc-NECNm3i-VG6-On-Ly9-T.png"
-          alt="Franck DOSSOU"
+          src="https://i.postimg.cc/mkMpkFPX/converted-1.jpg"
+          alt={parent.Name}
           style={{ width: 120, height: 120, borderRadius: "10%" }}
         />
-        
+
         {/* Parent info */}
         <div>
-          <p><strong>NPI : </strong> 7654379056</p>
-          <p><strong>État Civil : </strong> DOSSOU Franck</p>
-          <p><strong>Email : </strong> franckdossou@gmail.com</p>
-          <p><strong>Adresse : </strong> Abomey Calavi</p>
+          <p><strong>NPI : </strong> {parent.NPI}</p>
+          <p><strong>État Civil : </strong> {parent.Name} {parent.Firstname}</p>
+          <p><strong>Email : </strong> {parent.Email}</p>
+          <p><strong>Adresse : </strong> {parent.Adresse}</p>
         </div>
       </div>
 
@@ -59,19 +104,19 @@ const DetailsParent = () => {
           <div>
             <h3 style={{ color: "#004aad", fontSize: "16px" }}>Mes enfants</h3>
             <ul>
-              <li>DOSSOU Emma - 6ème</li>
-              <li>DOSSOU Bashorun - 1ère</li>
-              <li>BADA Claire - 2nde</li>
+              {enfants.map((enfant, index) => (
+                <li key={index}>{enfant.Nom_enfant} {enfant.Prenom_enfant} - {enfant.Classe_actuelle}</li>
+              ))}
             </ul>
           </div>
 
           {/* Éducateurs & Accompagnateurs */}
           <div>
-            <h3 style={{ color: "#004aad", fontSize: "16px" }}>Mes éducateurs & Accompagnateurs</h3>
+            <h3 style={{ color: "#004aad", fontSize: "16px" }}>Mes éducateurs </h3>
             <ul>
-              <li>XALOGUN Yves - Mathématiques</li>
-              <li>ZINSOU Wenceslas - PCT</li>
-              <li>GBEDOU Xavier - SVT</li>
+              {educateurs.map((educateur, index) => (
+                <li key={index}>{educateur.Name} {educateur.Firstname} - {educateur.Matiere}</li>
+              ))}
             </ul>
           </div>
         </div>

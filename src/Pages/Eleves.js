@@ -9,7 +9,7 @@ const Eleves = () => {
 
   // Récupérer les produits depuis l'API
   useEffect(() => {
-    fetch(`https://access-backend-a961a1f4abb2.herokuapp.com/api/get_all_enfants`)
+    fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_all_enfants`)
       .then((res) => res.json())
       .then((data) => {
         setEnfants(data);

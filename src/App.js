@@ -14,6 +14,7 @@ import Eleves from './Pages/Eleves';
 import DetailsParent from './Pages/DetailsParent';
 import DetailsEducateur from './Pages/DetailsEducateur';
 import DetailsEleve from './Pages/DetailsEleve';
+import DetailsSeance from './Pages/DetailsSeance';
 import Layout from './Layout'; 
 import './index.css';
 
@@ -40,6 +41,7 @@ function App() {
             <Route path="DetailsParent" element={<DetailsParent />} />
             <Route path="DetailsEducateur" element={<DetailsEducateur />} />
             <Route path="DetailsEleve" element={<DetailsEleve />} />
+            <Route path="DetailsSeance" element={<DetailsSeance />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,46 +1,84 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const DetailsEducateur = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const NPI = searchParams.get("NPI");
+
+  const [educateur, setEducateur] = useState(null);
+  const [loading, setLoading] = useState(true); // Ajout de l'état de chargement
+
+  useEffect(() => {
+    if (NPI) {
+      setLoading(true); // Démarre le chargement
+      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_educateur/${NPI}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.message) {
+            // Si l'éducateur n'est pas trouvé, afficher une erreur
+            console.log(data.message);
+          } else {
+            // Si les données sont présentes, les stocker dans l'état
+            setEducateur(data.data);
+          }
+        })
+        .catch((err) => {
+          console.log("Erreur lors du chargement des détails :", err);
+        })
+        .finally(() => {
+          setLoading(false); // Fin du chargement
+        });
+    }
+  }, [NPI]);
+
+  if (loading) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <p>Chargement des détails...</p>
+      </div>
+    );
+  }
+
+  if (!educateur || !educateur.educateur || educateur.educateur.length === 0) {
+    return (
+      <div style={{ padding: "20px", color: "red" }}>
+        <p>Aucun éducateur trouvé pour le NPI : {NPI}</p>
+      </div>
+    );
+  }
+
   return (
     <div style={{ padding: "20px" }}>
-      {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
         <h2 style={{ margin: 0, fontSize: 18 }}>Détails de l'éducateur</h2>
       </div>
 
       <div style={{ height: "5px" }}></div>
-
-      {/* Line separator with lighter color and thinner width */}
       <div style={{ borderBottom: "1px solid #ddd", marginBottom: "20px" }}></div>
 
-      {/* Parent image and info in a centered flex row */}
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          gap: "80px", // Added space between the image and the info
+          gap: "80px",
         }}
       >
-        {/* Parent image */}
         <img
-          src="https://i.postimg.cc/3NBFwXJw/cv-Ifzc-NECNm3i-VG6-On-Ly9-T.png"
-          alt="Franck DOSSOU"
+          src={educateur.educateur[0]?.Photo_educateur ? `data:image/png;base64,${educateur.educateur[0].Photo_educateur}` : "https://i.postimg.cc/3RBB0hNc/A.jpg"}
+          alt={educateur.educateur[0]?.Name}
           style={{ width: 120, height: 120, borderRadius: "10%" }}
         />
-        
-        {/* Parent info */}
+
         <div>
-          <p><strong>NPI : </strong> 7654379056</p>
-          <p><strong>État Civil : </strong> DOSSOU Franck</p>
-          <p><strong>Email : </strong> franckdossou@gmail.com</p>
-          <p><strong>Adresse : </strong> Abomey Calavi</p>
-          
-          
+          <p><strong>NPI : </strong> {educateur.educateur[0]?.NPI}</p>
+          <p><strong>État Civil : </strong> {educateur.educateur[0]?.Name} {educateur.educateur[0]?.Firstname}</p>
+          <p><strong>Email : </strong> {educateur.educateur[0]?.Email}</p>
+          <p><strong>Adresse : </strong> {educateur.educateur[0]?.Adresse}</p>
         </div>
       </div>
 
-      {/* Conteneur blanc large */}
       <div
         style={{
           marginTop: "20px",
@@ -53,33 +91,33 @@ const DetailsEducateur = () => {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-evenly", // This will evenly space the two columns
+            justifyContent: "space-evenly",
             gap: "70px",
           }}
         >
-          {/* Parcours */}
           <div>
             <h3 style={{ color: "#004aad", fontSize: "16px" }}>Parcours</h3>
-            <p><strong>Matière : </strong> Mathématiques </p>
-            <p><strong>Expérience : </strong> 12 années </p>
-            <p><strong>Parcours : </strong> Ste Bakhita - CEG 1 Abomey Calavi - CPEG L'entente </p>
+            <p><strong>Matière : </strong> {educateur.educateur[0]?.Matiere}</p>
+            <p><strong>Niveau : </strong> {educateur.educateur[0]?.Niveau}</p>
+            <p><strong>Expérience : </strong> {educateur.educateur[0]?.Experience} ans</p>
+            <p><strong>Parcours : </strong> {educateur.educateur[0]?.Parcours}</p>
           </div>
 
-          {/* Elèves et Mode Accompagnateur */}
           <div>
-
-            <h3 style={{ color: "#004aad", fontSize: "16px" }}>Elèves actuels & Durée du tutorat</h3>
+            <h3 style={{ color: "#004aad", fontSize: "16px" }}>
+              Elèves actuels & Durée du tutorat
+            </h3>
             <ul>
-              <li>DOSSOU Emma - 6ème - 2 mois</li>
-              <li>DOSSOU Bashorun - 1ère - 3 mois</li>
-              <li>BADA Claire - 2nde - 2 mois </li>
-            </ul> 
-
-            <h3 style={{ color: "#004aad" }}>Mode Accompagnateur & Durée du tutorat </h3>
-            <ul>
-              <li>Maison FAYOMI André - 7 mois</li>
+              {educateur.tutorat && educateur.tutorat.length > 0 ? (
+                educateur.tutorat.map((tutorat, index) => (
+                  <li key={index}>
+                    {tutorat.Nom_enfant} {tutorat.Prenom_enfant} - {tutorat.Classe_actuelle} - {tutorat.Duree_tutorat}
+                  </li>
+                ))
+              ) : (
+                <li>Aucun élève actuel.</li>
+              )}
             </ul>
-
           </div>
         </div>
       </div>

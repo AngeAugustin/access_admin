@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+const defaultAvatar = "https://i.postimg.cc/mkMpkFPX/converted-1.jpg"
 
 const Parents = () => {
   const [parents, setParents] = useState([]);
 
   useEffect(() => {
-        fetch(`https://access-backend-a961a1f4abb2.herokuapp.com/api/get_all_parents`)
+        fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_all_parents`)
           .then((res) => res.json())
           .then((data) => {
             setParents(data);
@@ -48,7 +49,7 @@ const Parents = () => {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              src={parent.avatar}
+              src={parent.avatar || defaultAvatar}
               alt="avatar"
               style={{ width: 50, height: 50, borderRadius: "50%", marginRight: "10px" }}
             />
