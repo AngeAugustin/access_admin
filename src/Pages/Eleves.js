@@ -9,7 +9,7 @@ const Eleves = () => {
 
   // Récupérer les produits depuis l'API
   useEffect(() => {
-    fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_all_enfants`)
+    fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_all_enfants`)
       .then((res) => res.json())
       .then((data) => {
         setEnfants(data);

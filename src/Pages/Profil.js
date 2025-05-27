@@ -7,7 +7,7 @@ const Profil = () => {
   const [educateurs, setEducateurs] = useState([]);
 
   useEffect(() => {
-    fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_educ_backend`)
+    fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_educ_backend`)
       .then((res) => res.json())
       .then((data) => {
         setEducateurs(data);

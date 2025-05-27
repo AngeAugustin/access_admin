@@ -14,7 +14,7 @@ const DetailsEleve = () => {
 
   useEffect(() => {
     if (NPI_enfant) {
-      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_enfant/${NPI_enfant}`)
+      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_enfant/${NPI_enfant}`)
         .then((res) => res.json())
         .then((data) => {
           setDetails(data);

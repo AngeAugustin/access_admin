@@ -37,7 +37,7 @@ const Connexion = () => {
           },
         };
 
-        const response = await fetch('https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/login', options);
+        const response = await fetch('https://mediumvioletred-mole-607585.hostingersite.com/public/api/login', options);
 
         if (response.ok) {
           const responseData = await response.json();
@@ -48,7 +48,7 @@ const Connexion = () => {
           // Storing Username in local storage
           localStorage.setItem('Email', responseData.Email);
 
-          navigate('/profil');
+          navigate('/accueil');
         } else {
           throw new Error("Une erreur s'est produite");
         }

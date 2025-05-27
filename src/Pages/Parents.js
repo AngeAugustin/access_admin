@@ -6,7 +6,7 @@ const Parents = () => {
   const [parents, setParents] = useState([]);
 
   useEffect(() => {
-        fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_all_parents`)
+        fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_all_parents`)
           .then((res) => res.json())
           .then((data) => {
             setParents(data);

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-const defaultAvatar = "https://i.postimg.cc/3RBB0hNc/A.jpg"
+const defaultAvatar = "https://i.postimg.cc/9FqSnKGz/Accueil.jpg"
 
 const Educateurs = () => {
   const [educateurs, setEducateurs] = useState([]);
 
   useEffect(() => {
-      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_educ_backend`)
+      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_educ_backend`)
         .then((res) => res.json())
         .then((data) => {
           setEducateurs(data);

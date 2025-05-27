@@ -44,6 +44,15 @@ const Layout = () => {
           <ul>
             <li>
                 <NavLink
+                  to="/accueil"
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                >
+                  <FontAwesomeIcon icon={faHome} className="menu-icon" />
+                  Tableau de bord
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
                   to="/parents"
                   className={({ isActive }) => (isActive ? 'active' : '')}
                 >

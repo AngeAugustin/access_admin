@@ -14,7 +14,7 @@ const DetailsParent = () => {
   useEffect(() => {
     const fetchParentDetails = async () => {
       try {
-        const response = await fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_parents_details/${NPI}`);
+        const response = await fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_parents_details/${NPI}`);
         if (!response.ok) {
           throw new Error('Erreur lors de la récupération des données');
         }

@@ -9,7 +9,7 @@ const Seances = () => {
   useEffect(() => {
     const fetchSeances = async () => {
       try {
-        const response = await fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_all_seances`);
+        const response = await fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_all_seances`);
         if (!response.ok) throw new Error("Aucune séance trouvée.");
         const data = await response.json();
         setSeances(data);
@@ -69,10 +69,10 @@ const Seances = () => {
               />
               <div>
                 <p style={{ margin: 0, fontWeight: "bold" }}>
-                  Séance avec {seance.NomEducateur} {seance.PrenomEducateur} et {seance.NomEnfant} {seance.PrenomEnfant}
+                  Séance de {seance.NomEducateur} {seance.PrenomEducateur} avec {seance.NomEnfant} {seance.PrenomEnfant}
                 </p>
                 <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>
-                  Heure : {seance.Heure_seance}
+                  Durée : {seance.Heure_seance}
                 </p>
               </div>
             </div>

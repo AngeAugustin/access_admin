@@ -21,7 +21,7 @@ const ProfileCard = () => {
   
   const handleSubmitValidation = () => {
     if (NPI) {
-      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/valider/${NPI}`, {
+      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/valider/${NPI}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ etoiles, niveau }),
@@ -38,7 +38,7 @@ const ProfileCard = () => {
 
   useEffect(() => {
     if (NPI) {
-      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_profil_details/${NPI}`)
+      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_profil_details/${NPI}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.message) {
@@ -67,7 +67,7 @@ const ProfileCard = () => {
 
   const handleRejectProfile = () => {
     if (NPI) {
-      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/rejeter/${NPI}`, {
+      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/rejeter/${NPI}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
       })

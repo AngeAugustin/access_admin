@@ -15,6 +15,7 @@ import DetailsParent from './Pages/DetailsParent';
 import DetailsEducateur from './Pages/DetailsEducateur';
 import DetailsEleve from './Pages/DetailsEleve';
 import DetailsSeance from './Pages/DetailsSeance';
+import Accueil from './Pages/Accueil';
 import Layout from './Layout'; 
 import './index.css';
 
@@ -29,7 +30,7 @@ function App() {
 
           {/* Routes protégées avec Layout */}
           <Route path="/" element={<Layout />}>
-          <Route index element={<Profil />} />
+          <Route index element={<Accueil />} />
             <Route path="Notifications" element={<Notifications />} />
             <Route path="Profil" element={<Profil />} />
             <Route path="DetailsProfil" element={<DetailsProfil />} />
@@ -42,6 +43,7 @@ function App() {
             <Route path="DetailsEducateur" element={<DetailsEducateur />} />
             <Route path="DetailsEleve" element={<DetailsEleve />} />
             <Route path="DetailsSeance" element={<DetailsSeance />} />
+            <Route path="Accueil" element={<Accueil />} />
           </Route>
         </Routes>
       </BrowserRouter>

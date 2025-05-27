@@ -12,7 +12,7 @@ const DetailsEducateur = () => {
   useEffect(() => {
     if (NPI) {
       setLoading(true); // Démarre le chargement
-      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/get_educateur/${NPI}`)
+      fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_educateur/${NPI}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.message) {
