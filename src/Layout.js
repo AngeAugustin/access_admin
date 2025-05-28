@@ -11,6 +11,8 @@ import {
   faMoneyBillTransfer,
   faCalendarAlt,
   faUserGraduate, 
+  faTriangleExclamation,
+  faPeopleRoof
 } from '@fortawesome/free-solid-svg-icons';
 
 const Layout = () => {
@@ -56,7 +58,7 @@ const Layout = () => {
                   to="/parents"
                   className={({ isActive }) => (isActive ? 'active' : '')}
                 >
-                  <FontAwesomeIcon icon={faHome} className="menu-icon" />
+                  <FontAwesomeIcon icon={faPeopleRoof} className="menu-icon" />
                   Parents
                 </NavLink>
             </li>
@@ -107,12 +109,21 @@ const Layout = () => {
             </li>
             <li>
                 <NavLink
+                  to="/reclamations"
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                >
+                  <FontAwesomeIcon icon={faTriangleExclamation} className="menu-icon" />
+                  Réclamations
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
                   to="/notifications"
                   className={({ isActive }) => (isActive ? 'active' : '')}
                 >
                   <FontAwesomeIcon icon={faBell} className="menu-icon" />
                   Notifications
-                </NavLink>
+                </NavLink> 
             </li>
           </ul>
         </nav>

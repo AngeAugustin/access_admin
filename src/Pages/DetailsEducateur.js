@@ -98,7 +98,14 @@ const DetailsEducateur = () => {
           <div>
             <h3 style={{ color: "#004aad", fontSize: "16px" }}>Parcours</h3>
             <p><strong>Matière : </strong> {educateur.educateur[0]?.Matiere}</p>
-            <p><strong>Niveau : </strong> {educateur.educateur[0]?.Niveau}</p>
+            <p>
+              <strong>Niveau : </strong>
+              {educateur.educateur[0]?.Niveau === "Cycle I"
+                ? "Professeur(e) Adjoint(e)"
+                : educateur.educateur[0]?.Niveau === "Cycle II"
+                ? "Professeur(e) Certifié(e)"
+                : educateur.educateur[0]?.Niveau}
+            </p>
             <p><strong>Expérience : </strong> {educateur.educateur[0]?.Experience} ans</p>
             <p><strong>Parcours : </strong> {educateur.educateur[0]?.Parcours}</p>
           </div>

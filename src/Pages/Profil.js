@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-const defaultAvatar = "https://i.postimg.cc/Y9wnm83h/instabutton-png-design-5690390.png"; // Avatar par défaut
 
 const Profil = () => {
   const [statutActif, setStatutActif] = useState("Nouveau"); // Le statut actif initial est "Nouveau"
@@ -79,7 +78,7 @@ const Profil = () => {
           >
             <div style={{ display: "flex", alignItems: "center" }}>
               <img
-                src={educateur.avatar || defaultAvatar}
+                src={`data:image/jpeg;base64,${educateur.Photo_educateur}`}
                 alt="Avatar"
                 style={{
                   width: "40px",

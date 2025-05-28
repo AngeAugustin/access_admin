@@ -6,6 +6,7 @@ import Inscription from './Pages/Inscription';
 import Profil from './Pages/Profil';
 import DetailsProfil from './Pages/DetailsProfil';
 import Notifications from './Pages/Notifications';
+import Reclamations from './Pages/Reclamations';
 import Parents from './Pages/Parents';
 import Educateurs from './Pages/Educateurs';
 import Paiements from './Pages/Paiements';
@@ -44,6 +45,7 @@ function App() {
             <Route path="DetailsEleve" element={<DetailsEleve />} />
             <Route path="DetailsSeance" element={<DetailsSeance />} />
             <Route path="Accueil" element={<Accueil />} />
+            <Route path="Reclamations" element={<Reclamations />} />
           </Route>
         </Routes>
       </BrowserRouter>

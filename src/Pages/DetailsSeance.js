@@ -14,7 +14,7 @@ const DetailsSeance = () => {
   useEffect(() => {
     const fetchSeanceDetails = async () => {
       try {
-        const response = await fetch(`https://mediumvioletred-mole-607585.hostingersite.com/AccessBackend/public/api/details_seance_back/${seanceId}`);
+        const response = await fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/details_seance_back/${seanceId}`);
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des données");
         }
@@ -62,7 +62,10 @@ const DetailsSeance = () => {
     <div style={{ padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Détails de la séance</h2>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Détails de la séance</h2>
+        <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
+          Gérer les détails de la séance
+        </p>
       </div>
 
       <div style={{ height: "5px" }}></div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-const defaultAvatar = "https://i.postimg.cc/9FqSnKGz/Accueil.jpg"
 
 const Educateurs = () => {
   const [educateurs, setEducateurs] = useState([]);
@@ -49,7 +48,7 @@ const Educateurs = () => {
         >
           <div style={{ display: "flex", alignItems: "center" }}>
             <img
-              src={educateur.avatar || defaultAvatar}
+              src={`data:image/jpeg;base64,${educateur.Photo_educateur}`}
               alt="avatar"
               style={{ width: 50, height: 50, borderRadius: "50%", marginRight: "10px" }}
             />

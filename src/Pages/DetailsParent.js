@@ -48,9 +48,11 @@ const DetailsParent = () => {
 
   return (
     <div style={{ padding: "20px" }}>
-      {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Détails du parent</h2>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Détails du parent</h2>
+        <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
+          Gérer les détails du parent
+        </p>
       </div>
 
       <div style={{ height: "5px" }}></div>
@@ -69,7 +71,7 @@ const DetailsParent = () => {
       >
         {/* Parent image */}
         <img
-          src="https://i.postimg.cc/mkMpkFPX/converted-1.jpg"
+          src="https://i.postimg.cc/FRDHTppm/1.png"
           alt={parent.Name}
           style={{ width: 120, height: 120, borderRadius: "10%" }}
         />

@@ -76,6 +76,7 @@ const Accueil = () => {
           flexWrap: "wrap",
           justifyContent: "center",
           gap: "20px",
+          width:"100%",
         }}
       >
         {stats.map((item, index) => (

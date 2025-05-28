@@ -1,6 +1,6 @@
 import React from "react";
 
-const Notifications = () => {
+const Reclamations = () => {
  
 
   return (
@@ -11,8 +11,8 @@ const Notifications = () => {
           marginBottom: "20px",
         }}
       >
-        <h2 style={{ margin: 0, fontSize: 16 }}>Notifications</h2>
-        <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>Gérer mes notifications</p>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Réclamations</h2>
+        <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>Gérer mes réclamations</p>
       </div>
 
       <div style={{ height: "5px" }}></div>
@@ -26,4 +26,4 @@ const Notifications = () => {
   );
 };
 
-export default Notifications;
+export default Reclamations;

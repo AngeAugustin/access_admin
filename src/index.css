@@ -89,7 +89,7 @@ body {
 .sidebar-image {
   width: 80px; /* Limite la largeur de l'image */
   height: auto;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 /* Style pour le titre */
@@ -111,7 +111,7 @@ nav ul {
 }
 
 nav ul li {
-  padding: 8px 0;
+  padding: 5px 0;
 }
 
 /* Style des liens de menu */
@@ -122,7 +122,7 @@ nav ul li a {
   display: flex;
   align-items: center;
   justify-content: flex-start; /* Alignement des éléments */
-  padding: 10px;
+  padding: 5px;
   background-color: #fff; /* Fond blanc */
   border-radius: 4px;
   transition: all 0.3s ease;
@@ -156,7 +156,7 @@ nav ul li a:active .menu-icon {
 
 /* Lien Déconnexion centré dans la barre latérale */
 .logout-section {
-  margin-top: 50px; /* Force la section Déconnexion à se placer après les autres éléments */
+  margin-top: 40px; /* Force la section Déconnexion à se placer après les autres éléments */
   display: flex;
   justify-content: center; /* Centre horizontalement le lien Déconnexion */
   align-items: center; /* Aligne verticalement le texte et l'icône */

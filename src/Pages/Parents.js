@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-const defaultAvatar = "https://i.postimg.cc/mkMpkFPX/converted-1.jpg"
+const defaultAvatar = "https://i.postimg.cc/W4xnhmgN/A.png"
 
 const Parents = () => {
   const [parents, setParents] = useState([]);

@@ -35,7 +35,10 @@ const DetailsEleve = () => {
     <div style={{ padding: "20px" }}>
       {/* Header section */}
       <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 18 }}>Détails de l'élève</h2>
+        <h2 style={{ margin: 0, fontSize: 16 }}>Détails de l'élève</h2>
+        <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
+          Gérer les détails de l'élève
+        </p>
       </div>
 
       <div style={{ height: "5px" }}></div>
