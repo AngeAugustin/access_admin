@@ -7,6 +7,8 @@ import Profil from './Pages/Profil';
 import DetailsProfil from './Pages/DetailsProfil';
 import Notifications from './Pages/Notifications';
 import Reclamations from './Pages/Reclamations';
+import DetailsReclamation from './Pages/DetailsReclamation';
+import DetailsPaiement from './Pages/DetailsPaiement';
 import Parents from './Pages/Parents';
 import Educateurs from './Pages/Educateurs';
 import Paiements from './Pages/Paiements';
@@ -46,6 +48,8 @@ function App() {
             <Route path="DetailsSeance" element={<DetailsSeance />} />
             <Route path="Accueil" element={<Accueil />} />
             <Route path="Reclamations" element={<Reclamations />} />
+            <Route path="DetailsReclamation" element={<DetailsReclamation />} />
+            <Route path="DetailsPaiement" element={<DetailsPaiement />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,55 +1,118 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from './AuthContext';
 
-const paiements = [
-  {
-    id: 1,
-    nom: "FACHEHOUN Augustin",
-    montant: 17600,
-    avatar: "https://i.postimg.cc/FRkXtxg0/Q.png",
-    statut: "Payé",
-  },
-  {
-    id: 2,
-    nom: "FACHEHOUN Augustin",
-    montant: 17600,
-    avatar: "https://i.postimg.cc/FRkXtxg0/Q.png",
-    statut: "Payé",
-  },
-  {
-    id: 3,
-    nom: "FACHEHOUN Augustin",
-    montant: 17600,
-    avatar: "https://i.postimg.cc/FRkXtxg0/Q.png",
-    statut: "Payé",
-  },
-  {
-    id: 4,
-    nom: "FACHEHOUN Augustin",
-    montant: 17600,
-    avatar: "https://i.postimg.cc/FRkXtxg0/Q.png",
-    statut: "Non payé",
-  },
-];
-
-const defaultAvatar = "https://via.placeholder.com/40"; // Avatar par défaut
+const defaultAvatar = "https://via.placeholder.com/40";
 
 const Paiements = () => {
-  const [statutActif, setStatutActif] = useState("Non payé");
+  const [paiements, setPaiements] = useState([]);
+  const [statutActif, setStatutActif] = useState("En attente");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { Name, NPI, Firstname, Role } = useAuth();
+
+  useEffect(() => {
+    const fetchPaiements = async () => {
+      try {
+        const response = await fetch(
+          "https://mediumvioletred-mole-607585.hostingersite.com/public/api/admin_paiements"
+        );
+        if (!response.ok) {
+          throw new Error("Erreur lors du chargement des paiements");
+        }
+        const data = await response.json();
+
+        const transform = (items, statut) =>
+          items.map((item) => ({
+            id: item.Id_paiement,
+            nom: `${item.Nom_educateur} ${item.Prenom_educateur}`,
+            montant: item.Montant_paiement,
+            avatar: defaultAvatar,
+            statut: statut,
+            date: item.Date_paiement,
+            paiement: item.Paiement,
+          }));
+
+        const provisoire = transform(data.provisoire, "En attente");
+        const effectues = transform(data.effectues, "Payé");
+
+        setPaiements([...provisoire, ...effectues]);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchPaiements();
+  }, []);
+
+  const handlePayer = async (profil) => {
+  console.log("=== Profil sélectionné ===");
+  console.log(profil);
+  
+  const payload = {
+    Id_paiement: profil.id,
+    Paiement: profil.paiement,
+    NPI_agent: NPI,
+    Nom_agent: NPI,
+    Prenom_agent: NPI,
+    Role_agent: 'Admin',
+    Montant_paiement: profil.montant,
+  };
+
+  console.log("=== Payload envoyé ===");
+  console.log(payload);
+
+  // Optionnel : log les clés manquantes si elles sont nulles ou undefined
+  Object.entries(payload).forEach(([key, value]) => {
+    if (value === null || value === undefined) {
+      console.warn(`🚨 Donnée manquante : ${key}`);
+    }
+  });
+
+  try {
+    const response = await fetch(
+      "https://mediumvioletred-mole-607585.hostingersite.com/public/api/payer_admin",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Erreur lors de l'envoi du paiement");
+    }
+
+    alert("Paiement effectué avec succès !");
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
+};
+
+
+  const paiementsFiltres = paiements.filter(
+    (p) => p.statut === statutActif
+  );
 
   return (
-    <div style={{padding: "20px" }}>
-      {/* Header section */}
+    <div style={{ padding: "20px" }}>
       <div style={{ marginBottom: "20px" }}>
         <h2 style={{ margin: 0, fontSize: 16 }}>Paiements</h2>
-        <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>Gérer les paiements</p>
+        <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
+          Gérer les paiements
+        </p>
       </div>
 
-      <div style={{ height: "5px" }}></div>
-
-      {/* Line separator */}
       <div style={{ borderBottom: "1px solid #ddd", marginBottom: "20px" }}></div>
 
-      {/* Onglets de sélection */}
       <div
         style={{
           display: "flex",
@@ -59,7 +122,7 @@ const Paiements = () => {
           marginBottom: "20px",
         }}
       >
-        {["Payé", "Non payé"].map((statut) => (
+        {["Payé", "En attente"].map((statut) => (
           <button
             key={statut}
             onClick={() => setStatutActif(statut)}
@@ -75,62 +138,86 @@ const Paiements = () => {
               transition: "0.3s",
             }}
           >
-            {statut === "Non payé" ? "En attente" : "Payés"}
+            {statut === "En attente" ? "En attente" : "Payés"}
           </button>
         ))}
       </div>
 
-      {/* Liste des paiements filtrés */}
-      {paiements
-        .filter((profil) => profil.statut === statutActif)
-        .map((profil) => (
-          <div
-            key={profil.id}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              backgroundColor: "#ffffff",
-              padding: "15px",
-              borderRadius: "8px",
-              fontSize: "14px",
-              marginBottom: "10px",
-              border: "1px solid #fff",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img
-                src={profil.avatar || defaultAvatar}
-                alt="Avatar"
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  marginRight: "10px",
-                }}
-              />
-              <div>
-                <strong style={{ fontSize: 14 }} >{profil.nom}</strong>
-                <p style={{ margin: 0, color: "#666", fontSize: 12 }}>{profil.montant}</p>
-              </div>
-            </div>
-            <button
+      {loading && <p>Chargement des paiements...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {paiementsFiltres.map((profil) => (
+        <div
+          key={profil.id}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            backgroundColor: "#ffffff",
+            padding: "15px",
+            borderRadius: "8px",
+            fontSize: "14px",
+            marginBottom: "10px",
+            border: "1px solid #fff",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <img
+              src={profil.avatar}
+              alt="Avatar"
               style={{
-                backgroundColor: profil.statut === "Payé" ? "orange" : "#004aad",
-                color: "white",
-                border: "none",
-                fontWeight: "bold",
-                padding: "10px 15px",
-                borderRadius: "5px",
-                cursor: "pointer",
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                marginRight: "10px",
               }}
-            >
-              Voir les détails
-            </button>
+            />
+            <div>
+              <strong style={{ fontSize: 14 }}>{profil.nom}</strong>
+              <p style={{ margin: 0, color: "#666", fontSize: 12 }}>
+                {profil.montant} FCFA
+              </p>
+            </div>
           </div>
-        ))}
+
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Link to={`/DetailsPaiement?ID=${profil.id}`}>
+              <button
+                style={{
+                  backgroundColor:
+                    profil.statut === "Payé" ? "orange" : "#004aad",
+                  color: "white",
+                  border: "none",
+                  fontWeight: "bold",
+                  padding: "10px 15px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Voir les détails
+              </button>
+            </Link>
+            {profil.statut === "En attente" && (
+              <button
+                onClick={() => handlePayer(profil)}
+                style={{
+                  backgroundColor: "green",
+                  color: "white",
+                  border: "none",
+                  fontWeight: "bold",
+                  padding: "10px 15px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Payer
+              </button>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
