@@ -20,6 +20,7 @@ import DetailsEleve from './Pages/DetailsEleve';
 import DetailsSeance from './Pages/DetailsSeance';
 import ResultPay from './Pages/Resultpay';
 import Accueil from './Pages/Accueil';
+import PrivateRoute from './PrivateRoute';
 import Layout from './Layout'; 
 import './index.css';
 
@@ -28,14 +29,22 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Routes publiques, sans Layout */}
+          {/* Point d’entrée : la page de connexion */}
           <Route path="/Connexion" element={<Connexion />} />
           <Route path="/Inscription" element={<Inscription />} />
-          <Route path="ResultPay" element={<ResultPay />} />
+          <Route path="/ResultPay" element={<ResultPay />} />
 
-          {/* Routes protégées avec Layout */}
-          <Route path="/" element={<Layout />}>
-          <Route index element={<Accueil />} />
+          {/* Routes protégées */}
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Layout />
+              </PrivateRoute>
+            }
+          >
+            <Route index element={<Accueil />} />
+            <Route path="Accueil" element={<Accueil />} />
             <Route path="Notifications" element={<Notifications />} />
             <Route path="Profil" element={<Profil />} />
             <Route path="DetailsProfil" element={<DetailsProfil />} />
@@ -48,7 +57,6 @@ function App() {
             <Route path="DetailsEducateur" element={<DetailsEducateur />} />
             <Route path="DetailsEleve" element={<DetailsEleve />} />
             <Route path="DetailsSeance" element={<DetailsSeance />} />
-            <Route path="Accueil" element={<Accueil />} />
             <Route path="Reclamations" element={<Reclamations />} />
             <Route path="DetailsReclamation" element={<DetailsReclamation />} />
             <Route path="DetailsPaiement" element={<DetailsPaiement />} />
