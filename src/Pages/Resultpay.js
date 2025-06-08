@@ -3,13 +3,13 @@ import React from "react";
 const App = () => {
   // Récupération du paramètre status dans l'URL
   const params = new URLSearchParams(window.location.search);
-  const status = params.get("status");
+  const status = params.get("status")?.toLowerCase(); // Normaliser en minuscules
 
   // Déterminer le texte à afficher en fonction du status
   let message = "Ceci est une démonstration d'une page centrée avec une image et du texte.";
-  if (status === "Approved") {
+  if (status === "approved") {
     message = "Votre paiement est terminé.";
-  } else if (status === "Pending") {
+  } else if (status === "pending") {
     message = "Votre paiement est en cours.";
   }
 
@@ -21,7 +21,7 @@ const App = () => {
         style={styles.image}
       />
       <h1 style={styles.heading}>Bienvenue sur votre page de résultat !</h1>
-      <p style={styles.paragraph}>{message} Veuillez retourner dans l'application.</p>
+      <p style={styles.paragraph}>{message}</p>
     </div>
   );
 };
