@@ -18,6 +18,7 @@ import DetailsParent from './Pages/DetailsParent';
 import DetailsEducateur from './Pages/DetailsEducateur';
 import DetailsEleve from './Pages/DetailsEleve';
 import DetailsSeance from './Pages/DetailsSeance';
+import ResultPay from './Pages/Resultpay';
 import Accueil from './Pages/Accueil';
 import Layout from './Layout'; 
 import './index.css';
@@ -50,6 +51,7 @@ function App() {
             <Route path="Reclamations" element={<Reclamations />} />
             <Route path="DetailsReclamation" element={<DetailsReclamation />} />
             <Route path="DetailsPaiement" element={<DetailsPaiement />} />
+            <Route path="ResultPay" element={<ResultPay />} />
           </Route>
         </Routes>
       </BrowserRouter>
