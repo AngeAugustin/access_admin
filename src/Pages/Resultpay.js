@@ -4,11 +4,11 @@ const App = () => {
   return (
     <div style={styles.container}>
       <img
-        src="https://via.placeholder.com/200"
-        alt="Exemple"
+        src="https://i.postimg.cc/9QvqpzQZ/access-2.png"
+        alt="Access"
         style={styles.image}
       />
-      <h1 style={styles.heading}>Bienvenue sur ma page React !</h1>
+      <h1 style={styles.heading}>Bienvenue sur votre page de résultat !</h1>
       <p style={styles.paragraph}>
         Ceci est une démonstration d'une page centrée avec une image et du texte.
       </p>
