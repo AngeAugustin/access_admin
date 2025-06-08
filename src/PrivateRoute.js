@@ -3,9 +3,13 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from './Pages/AuthContext';
 
 const PrivateRoute = ({ children }) => {
-  const { Email } = useAuth(); // Email indique la connexion
-  
-  // Pas connecté => redirection
+  const { Email, isLoading } = useAuth();
+
+  if (isLoading) {
+    // Optionnel : affiche un spinner ou un texte
+    return <div>Chargement...</div>;
+  }
+
   if (!Email) {
     return <Navigate to="/Connexion" replace />;
   }
