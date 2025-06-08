@@ -91,7 +91,7 @@ const Paiements = () => {
   const payload = {
     Id_paiement: profil.id,
     Id_transaction: transaction, 
-    Paiement: profil.paiement,
+    Paiement: paiement,
     NPI_agent: NPI,
     Nom_agent: NPI,
     Prenom_agent: NPI,
