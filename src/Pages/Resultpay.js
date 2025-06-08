@@ -21,7 +21,7 @@ const App = () => {
         style={styles.image}
       />
       <h1 style={styles.heading}>Bienvenue sur votre page de résultat !</h1>
-      <p style={styles.paragraph}>{message}</p>
+      <p style={styles.paragraph}>{message} Veuillez retourner dans l'application.</p>
     </div>
   );
 };
