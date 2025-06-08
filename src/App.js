@@ -31,6 +31,7 @@ function App() {
           {/* Routes publiques, sans Layout */}
           <Route path="/Connexion" element={<Connexion />} />
           <Route path="/Inscription" element={<Inscription />} />
+          <Route path="ResultPay" element={<ResultPay />} />
 
           {/* Routes protégées avec Layout */}
           <Route path="/" element={<Layout />}>
@@ -51,7 +52,6 @@ function App() {
             <Route path="Reclamations" element={<Reclamations />} />
             <Route path="DetailsReclamation" element={<DetailsReclamation />} />
             <Route path="DetailsPaiement" element={<DetailsPaiement />} />
-            <Route path="ResultPay" element={<ResultPay />} />
           </Route>
         </Routes>
       </BrowserRouter>
