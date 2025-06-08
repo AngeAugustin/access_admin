@@ -52,7 +52,7 @@ const ProfileCard = () => {
   }, [NPI]);
 
   const handleViewDocument = (doc) => {
-    setDocumentContent(<img src={`data:image/png;base64,${doc}`} alt="Document" style={{ maxWidth: "100%" }} />);
+    setDocumentContent(<img src={`data:image/png;base64,${doc}`} alt="Document" style={{width: "100%", height: "100%", objectFit: "contain"}} />);
   };
 
   const handleDownload = (doc, filename) => {
@@ -163,16 +163,17 @@ const ProfileCard = () => {
 const styles = {
   container: { display: "flex", justifyContent: "center", alignItems: "center", height: "80vh", width: "100%" },
   card: { background: "", padding: "15px", borderRadius: "8px", width: "650px", marginRight: "15px", display: "flex", flexDirection: "column", height: "80vh" },
-  profileSection: { display: "flex", alignItems: "center", background: "white", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", padding: "10px", borderRadius: "8px" },
+  profileSection: { display: "flex", alignItems: "center", background: "white", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", padding: "10px", borderRadius: "8px", marginTop: "10px" },
   profileImage: { width: "200px", height: "200px", borderRadius: "8px", objectFit: "cover", marginRight: "30px", padding: "30px" },
   profileInfo: { marginLeft: "5px", fontSize: "13px" },
-  documentSection: { marginTop: "15px", background: "white", padding: "12px", borderRadius: "8px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)" },
+  documentSection: { marginTop: "20px", background: "white", padding: "12px", borderRadius: "8px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)" },
   document: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px", height: "6vh", fontSize: "13px" },
   icon: { fontSize: "20px", color: "orange", marginLeft: "10px", cursor: "pointer" },
   buttonGroup: { display: "flex", justifyContent: "space-between", marginTop: "15px" },
   rejectButton: { background: "red", color: "white", border: "none", padding: "10px", width: "48%", borderRadius: "5px", cursor: "pointer" },
   acceptButton: { background: "green", color: "white", border: "none", padding: "10px", width: "48%", borderRadius: "5px", cursor: "pointer" },
-  emptyCard: { background: "white", borderRadius: "8px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", flexGrow: 1, height: "75vh", padding: "20px", overflowY: "auto", display: "flex", justifyContent: "center", alignItems: "center" }
+  emptyCard: {background: "white", borderRadius: "8px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", width: "600px", height: "500px", padding: "20px", overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center"
+}
 };
 
 export default ProfileCard;

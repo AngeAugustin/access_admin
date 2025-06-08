@@ -4,13 +4,48 @@ import { useAuth } from './AuthContext';
 
 const defaultAvatar = "https://via.placeholder.com/40";
 
+let profilStore = null; // Variable pour stocker le profil sélectionné
+let fedaPayInitialized = false; // Variable pour vérifier si FedaPay est initialisé
+
 const Paiements = () => {
   const [paiements, setPaiements] = useState([]);
   const [statutActif, setStatutActif] = useState("En attente");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { NPI } = useAuth();
 
-  const { Name, NPI, Firstname, Role } = useAuth();
+  // Fonction à appeler pour initialiser FedaPay sur les boutons .pay-btn
+  function initFedaPay(profil) {
+    if (!window.FedaPay) {
+      alert("Le module FedaPay n'est pas chargé.");
+      return;
+    }
+    if(!fedaPayInitialized) {
+      window.FedaPay.init('.pay-btn', {
+        public_key: 'pk_sandbox_DhKTKbhyY1s7p7ewvKEZdc1T',
+        onComplete: handlePayment
+      });
+      fedaPayInitialized = true; // Marquer FedaPay comme initialisé
+    }
+    profilStore = profil; // Stocker le profil sélectionné
+  }
+
+  // Fonction de callback pour le paiement
+  function handlePayment(response) {
+    const reason = response.reason;
+    if (reason === "CHECKOUT COMPLETE") {
+      const status = response.transaction.status;
+      if (status === "approved") {
+        const transaction = response.transaction.id;
+        const paiement = response.transaction.custom_metadata.paiement;
+        handlePayer(profilStore,transaction,paiement); // Appeler la fonction pour payer
+      } else {
+        console.error("Payment failed: ", response.transaction);
+      }
+    } else {
+      console.error("Payment failed: Widget closed or payment were not completed.");
+    }
+  }
 
   useEffect(() => {
     const fetchPaiements = async () => {
@@ -31,7 +66,7 @@ const Paiements = () => {
             avatar: defaultAvatar,
             statut: statut,
             date: item.Date_paiement,
-            paiement: item.Paiement,
+            paiement: item.Paiement, 
           }));
 
         const provisoire = transform(data.provisoire, "En attente");
@@ -49,12 +84,13 @@ const Paiements = () => {
     fetchPaiements();
   }, []);
 
-  const handlePayer = async (profil) => {
+  const handlePayer = async (profil, transaction, paiement) => {
   console.log("=== Profil sélectionné ===");
   console.log(profil);
-  
+
   const payload = {
     Id_paiement: profil.id,
+    Id_transaction: transaction, 
     Paiement: profil.paiement,
     NPI_agent: NPI,
     Nom_agent: NPI,
@@ -200,8 +236,15 @@ const Paiements = () => {
               </button>
             </Link>
             {profil.statut === "En attente" && (
-              <button
-                onClick={() => handlePayer(profil)}
+              <button className="pay-btn"  
+              data-transaction-amount={profil.montant}
+              data-transaction-description="Acheter mon produit"
+              data-customer-email="johndoe@gmail.com"
+              data-customer-phone_number-number="64000001"
+              data-customer-lastname="Doe"
+              data-customer-firstname="John"
+              data-transaction-custom_metadata-paiement={profil.paiement}
+                onClick={() => initFedaPay(profil)}
                 style={{
                   backgroundColor: "green",
                   color: "white",
