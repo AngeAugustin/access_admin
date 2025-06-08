@@ -1,6 +1,18 @@
 import React from "react";
 
 const App = () => {
+  // Récupération du paramètre status dans l'URL
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get("status");
+
+  // Déterminer le texte à afficher en fonction du status
+  let message = "Ceci est une démonstration d'une page centrée avec une image et du texte.";
+  if (status === "Approved") {
+    message = "Votre paiement est terminé.";
+  } else if (status === "Pending") {
+    message = "Votre paiement est en cours.";
+  }
+
   return (
     <div style={styles.container}>
       <img
@@ -9,9 +21,7 @@ const App = () => {
         style={styles.image}
       />
       <h1 style={styles.heading}>Bienvenue sur votre page de résultat !</h1>
-      <p style={styles.paragraph}>
-        Ceci est une démonstration d'une page centrée avec une image et du texte.
-      </p>
+      <p style={styles.paragraph}>{message}</p>
     </div>
   );
 };
