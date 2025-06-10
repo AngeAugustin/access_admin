@@ -37,12 +37,17 @@ const Seances = () => {
       <div style={{ borderBottom: "1px solid #ddd", marginBottom: "20px" }}></div>
 
       {/* Affichage du chargement ou message d'erreur */}
-      {loading ? (
-        <p>Chargement des séances...</p>
-      ) : error ? (
-        <p style={{ color: "red" }}>{error}</p>
-      ) : seances.length === 0 ? (
-        <p>Aucune séance disponible.</p>
+      {seances.length === 0 ? (
+        <div
+          style={{
+            textAlign: "center",
+            color: "#999",
+            marginTop: "50px",
+          }}
+        >
+          <div style={{ fontSize: "50px", marginBottom: "10px" }}>⚠️</div>
+          <p style={{ fontSize: "16px" }}>Il n'y a aucune séance.</p>
+        </div>
       ) : (
         // Liste des séances
         seances.map((seance) => (

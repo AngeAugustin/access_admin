@@ -8,9 +8,19 @@ const Reclamations = () => {
     fetch(`https://mediumvioletred-mole-607585.hostingersite.com/public/api/get_all_reclamations`)
       .then((res) => res.json())
       .then((data) => {
-        setReclamations(data);
+        console.log("Réponse API :", data); // Pour debugger la structure
+        if (data && Array.isArray(data)) {
+          setReclamations(data);
+        } else if (data && Array.isArray(data.reclamations)) {
+          setReclamations(data.reclamations);
+        } else {
+          setReclamations([]);
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error("Erreur API :", err);
+        setReclamations([]);
+      });
   }, []);
 
   return (
@@ -35,66 +45,80 @@ const Reclamations = () => {
 
       <div style={{ height: "10px" }}></div>
 
-      {/* Liste des réclamations */}
-      {reclamations.map((rec, index) => (
+      {/* Affichage si pas de réclamations */}
+      {reclamations.length === 0 ? (
         <div
-          key={index}
           style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            background: "#fff",
-            padding: "15px",
-            borderRadius: "8px",
-            marginBottom: "10px",
-            fontSize: "14px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            textAlign: "center",
+            color: "#999",
+            marginTop: "50px",
           }}
         >
-          {/* Image */}
-          <img
-            src="https://i.postimg.cc/yNBL2Ld3/Z.png" 
-            alt="Réclamation"
-            style={{
-              width: "40px",
-              height: "40px",
-              marginRight: "15px",
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-          />
-
-          {/* Contenu texte */}
-          <div style={{ flex: 1 }}>
-            <p style={{ margin: 0 }}>
-              Réclamation N°{" "}
-              <span style={{ fontWeight: "bold" }}>{rec.Id_reclamation}</span> de{" "}
-              <span style={{ fontWeight: "bold" }}>
-                {rec.Prenom_demandant} {rec.Nom_demandant}
-              </span>
-            </p>
-            <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>
-              Envoyée le {rec.Date_demande}
-            </p>
-          </div>
-
-          {/* Bouton */}
-          <Link to={`/DetailsReclamation?ID=${rec.Id_reclamation}`}>
-            <button
-              style={{
-                background: "#004aad",
-                color: "white",
-                border: "none",
-                padding: "8px 12px",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Voir les détails
-            </button>
-          </Link>
+          <div style={{ fontSize: "50px", marginBottom: "10px" }}>⚠️</div>
+          <p style={{ fontSize: "16px" }}>Il n'y a aucune réclamation.</p>
         </div>
-      ))}
+      ) : (
+        // Liste des réclamations
+        reclamations.map((rec, index) => (
+          <div
+            key={index}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              background: "#fff",
+              padding: "15px",
+              borderRadius: "8px",
+              marginBottom: "10px",
+              fontSize: "14px",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            {/* Image */}
+            <img
+              src="https://i.postimg.cc/j5dJNBpz/10002106.png"
+              alt="Réclamation"
+              style={{
+                width: "40px",
+                height: "40px",
+                marginRight: "15px",
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+            />
+
+            {/* Contenu texte */}
+            <div style={{ flex: 1 }}>
+              <p style={{ margin: 0 }}>
+                Réclamation N°{" "}
+                <span style={{ fontWeight: "bold" }}>{rec.Id_reclamation}</span> de{" "}
+                <span style={{ fontWeight: "bold" }}>
+                  {rec.Prenom_demandant} {rec.Nom_demandant}
+                </span>
+              </p>
+              <p style={{ margin: 0, color: "#666", fontSize: "14px" }}>
+                Envoyée le {rec.Date_demande}
+              </p>
+            </div>
+
+            {/* Bouton */}
+            <Link to={`/DetailsReclamation?ID=${rec.Id_reclamation}`}>
+              <button
+                style={{
+                  background: "#004aad",
+                  color: "white",
+                  border: "none",
+                  padding: "8px 12px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Voir les détails
+              </button>
+            </Link>
+          </div>
+        ))
+      )}
     </div>
   );
 };

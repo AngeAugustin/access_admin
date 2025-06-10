@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FiUsers,
@@ -43,23 +43,44 @@ const StatCard = ({ title, value, Icon, link }) => (
 
     <div style={{ alignSelf: "flex-end" }}>
       <Link to={link}>
-        <FiArrowUpRight style={{ cursor: "pointer", color: "#FFA500", fontSize: 20 }} />
+        <FiArrowUpRight
+          style={{ cursor: "pointer", color: "#FFA500", fontSize: 20 }}
+        />
       </Link>
     </div>
   </div>
 );
 
 const Accueil = () => {
-  const stats = [
-    { title: "Éducateurs", value: 89, Icon: FiUsers, link: "/educateurs" },
-    { title: "Élèves", value: 201, Icon: FiBook, link: "/eleves" },
-    { title: "Parents", value: 129, Icon: FiUser, link: "/parents" },
-    { title: "Notifications", value: 6, Icon: FiBell, link: "/notifications" },
-    { title: "Nouveaux profils", value: 3, Icon: FiUserPlus, link: "/nouveaux-profils" },
-    { title: "Paiements en attente", value: 28, Icon: FiClock, link: "/paiements-" },
-    { title: "Paiements effectués", value: 305, Icon: FiCheckCircle, link: "/paiements" },
-    { title: "Réclamations", value: 12, Icon: FiAlertCircle, link: "/reclamations" },
-  ];
+  const [stats, setStats] = useState(null);
+
+  useEffect(() => {
+    fetch("https://mediumvioletred-mole-607585.hostingersite.com/public/api/dashboard")
+      .then((res) => res.json())
+      .then((data) => {
+        // Construire le tableau attendu à partir de la réponse de l'API
+        const statsArray = [
+          { title: "Éducateurs", value: data.nbEducateurs, Icon: FiUsers, link: "/educateurs" },
+          { title: "Élèves", value: data.nbEnfants, Icon: FiBook, link: "/eleves" },
+          { title: "Parents", value: data.nbParents, Icon: FiUser, link: "/parents" },
+          { title: "Notifications", value: 0, Icon: FiBell, link: "/notifications" }, // Pas dans backend, valeur statique
+          { title: "Nouveaux profils", value: data.nbEducateursNouveaux, Icon: FiUserPlus, link: "/profil" },
+          { title: "Paiements en attente", value: 0, Icon: FiClock, link: "/paiements-attente" }, // Pas dans backend, valeur statique
+          {
+            title: "Paiements effectués",
+            value: data.nbPaiementsParent + data.nbPaiementsAdmin,
+            Icon: FiCheckCircle,
+            link: "/paiements",
+          },
+          { title: "Réclamations", value: data.nbReclamations, Icon: FiAlertCircle, link: "/reclamations" },
+        ];
+        setStats(statsArray);
+      });
+  }, []);
+
+  if (!stats) {
+    return <div>Chargement...</div>;
+  }
 
   return (
     <div style={{ padding: "20px" }}>
@@ -76,7 +97,7 @@ const Accueil = () => {
           flexWrap: "wrap",
           justifyContent: "center",
           gap: "20px",
-          width:"100%",
+          width: "100%",
         }}
       >
         {stats.map((item, index) => (

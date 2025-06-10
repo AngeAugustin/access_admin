@@ -75,7 +75,7 @@ const DetailsReclamation = () => {
       >
         {/* Image statique */}
         <img
-          src="https://i.postimg.cc/yNBL2Ld3/Z.png"
+          src="https://i.postimg.cc/j5dJNBpz/10002106.png"
           alt="Réclamation"
           style={{ width: 120, height: 120 }}
         />
