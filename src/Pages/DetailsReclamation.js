@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { FaExclamationTriangle } from "react-icons/fa"; 
+import { Link } from "react-router-dom";
 
 const DetailsReclamation = () => {
   const location = useLocation();
@@ -54,11 +56,31 @@ const DetailsReclamation = () => {
   return (
     <div style={{ padding: "20px" }}>
       {/* En-tête */}
-      <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 16 }}>Détails de la réclamation</h2>
-        <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
-          Informations sur la réclamation
-        </p>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+        <div>
+          <h2 style={{ margin: 0, fontSize: 16 }}>Détails de la réclamation</h2>
+          <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
+            Informations sur la réclamation
+          </p>
+        </div>
+          <Link to="/vendre">
+            <button
+              style={{
+                backgroundColor: "#004aad",
+                color: "white",
+                border: "none",
+                padding: "10px 20px",
+                borderRadius: "5px",
+                cursor: "pointer",
+                display: "flex", 
+                alignItems: "center", 
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <FaExclamationTriangle style={{ marginRight: "10px" }} /> 
+              Traiter la réclamation
+            </button>
+          </Link>
       </div>
 
       <div style={{ borderBottom: "1px solid #ddd", marginBottom: "20px" }}></div>

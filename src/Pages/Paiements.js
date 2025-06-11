@@ -219,7 +219,7 @@ const Paiements = () => {
           </div>
 
           <div style={{ display: "flex", gap: "10px" }}>
-            <Link to={`/DetailsPaiement?ID=${profil.id}`}>
+            <Link to={`/DetailsPaiement?ID=${profil.paiement}`}>
               <button
                 style={{
                   backgroundColor:

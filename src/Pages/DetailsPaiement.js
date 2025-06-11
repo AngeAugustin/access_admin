@@ -13,18 +13,15 @@ const DetailsPaiement = () => {
   useEffect(() => {
     const fetchPaiementDetails = async () => {
       try {
+        const role = "Admin";
         const response = await fetch(
-          `https://mediumvioletred-mole-607585.hostingersite.com/public/api/paiement_details/${ID}`
+          `https://mediumvioletred-mole-607585.hostingersite.com/public/api/details/paiement/${ID}/${role}`
         );
         if (!response.ok) {
           throw new Error("Erreur lors de la récupération des données");
         }
         const data = await response.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setPaiement(data[0]);
-        } else {
-          setPaiement(null);
-        }
+        setPaiement(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -41,7 +38,7 @@ const DetailsPaiement = () => {
     if (statut === "Nouveau") {
       return "https://i.postimg.cc/qvZjD03p/G.png";
     }
-    if (statut === "Traité") {
+    if (statut === "Effectué") {
       return "https://i.postimg.cc/zDpzPfzq/converted-1.jpg";
     }
     return "https://cdn-icons-png.flaticon.com/512/595/595067.png"; // fallback
@@ -75,8 +72,8 @@ const DetailsPaiement = () => {
       >
         {/* Image statique */}
         <img
-          src="https://i.postimg.cc/yNBL2Ld3/Z.png"
-          alt="Réclamation"
+          src="https://i.postimg.cc/prpWtGhm/Z-removebg-preview.png"
+          alt="Paiement"
           style={{ width: 120, height: 120 }}
         />
 
@@ -85,19 +82,19 @@ const DetailsPaiement = () => {
           <p>
             <strong>ID de Paiement :</strong> {paiement.Id_paiement}
             <img
-              src={getStatutImage(paiement.Statut)}
-              alt={paiement.Statut}
+              src={getStatutImage(paiement.Statut_paiement)}
+              alt={paiement.Statut_paiement}
               style={{
                 width: 20,
                 height: 20,
-                marginRight: 10,
+                marginLeft: 10,
                 verticalAlign: "middle",
               }}
             />
           </p>
-          <p><strong>NPI du demandant :</strong> {paiement.NPI_demandant}</p>
-          <p><strong>Nom du demandant :</strong> {paiement.Nom_demandant}</p>
-          <p><strong>Prénom du demandant :</strong> {paiement.Prenom_demandant}</p>
+          <p><strong>NPI de l'agent :</strong> {paiement.NPI_agent}</p>
+          <p><strong>Nom de l'agent :</strong> {paiement.Nom_agent}</p>
+          <p><strong>Prénom de l'agent :</strong> {paiement.Prenom_agent}</p>
         </div>
       </div>
 
@@ -120,15 +117,16 @@ const DetailsPaiement = () => {
           {/* Détails à gauche */}
           <div style={{ flex: 1 }}>
             <h3 style={{ color: "#004aad", fontSize: "16px" }}>Détails</h3>
-            <p>{paiement.Details}</p>
+            <p><strong>ID Transaction :</strong> {paiement.Id_transaction}</p>
+            <p><strong>Montant :</strong> {paiement.Montant_paiement} XAF</p>
           </div>
 
           {/* Infos complémentaires à droite */}
           <div style={{ flex: 1 }}>
             <h3 style={{ color: "#004aad", fontSize: "16px" }}>Informations complémentaires</h3>
-            <p><strong>Email :</strong> {paiement.Mail_demandant}</p>
-            <p><strong>Date de demande :</strong> {paiement.Date_demande}</p>
-            <p><strong>Motif :</strong> {paiement.Motif}</p>
+            <p><strong>Date de paiement :</strong> {paiement.Date_paiement}</p>
+            <p><strong>Statut :</strong> {paiement.Statut_paiement}</p>
+            <p><strong>Rôle :</strong> {paiement.Role}</p>
           </div>
         </div>
       </div>
