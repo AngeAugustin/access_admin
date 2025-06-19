@@ -124,7 +124,9 @@ const ProfileCard = () => {
         )}
 
         {showValidationMenu && (
-            <div style={{ marginTop: "15px", background: "#f9f9f9", padding: "15px", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
+          <div style={styles.fullscreenOverlay}>
+            <div style={styles.validationModal}>
+              <h2>Validation du profil</h2>
               <div style={{ marginBottom: "10px" }}>
                 <label>Étoiles : </label>
                 <input
@@ -133,32 +135,36 @@ const ProfileCard = () => {
                   max="5"
                   value={etoiles}
                   onChange={(e) => setEtoiles(e.target.value)}
-                  style={{ marginLeft: "10px", padding: "5px", borderRadius: "4px" }}
+                  style={styles.input}
                 />
               </div>
               <div style={{ marginBottom: "10px" }}>
                 <label>Niveau : </label>
-                <input
-                  type="text"
+                <select
                   value={niveau}
                   onChange={(e) => setNiveau(e.target.value)}
-                  style={{ marginLeft: "10px", padding: "5px", borderRadius: "4px" }}
-                />
+                  style={styles.input}
+                >
+                  <option value="">-- Sélectionnez un niveau --</option>
+                  <option value="Cycle I">Cycle I</option>
+                  <option value="Cycle II">Cycle II</option>
+                  <option value="Cycle III">Cycle III</option>
+                </select>
               </div>
-              <button
-                onClick={handleSubmitValidation}
-                style={{ background: "blue", color: "white", padding: "8px 12px", border: "none", borderRadius: "5px", cursor: "pointer" }}
-              >
-                Soumettre
-              </button>
-            </div>
-            )}
-            </div>
 
+              <div style={{ display: "flex", justifyContent: "space-between", width: "100%", marginTop: "20px" }}>
+                <button style={styles.cancelButton} onClick={() => setShowValidationMenu(false)}>Annuler</button>
+                <button style={styles.submitButton} onClick={handleSubmitValidation}>Soumettre</button>
+              </div>
+            </div>
+          </div>
+        )}
+        </div>
                 <div style={styles.emptyCard}>{documentContent}</div>
               </div>
             );
           };
+           
 
 const styles = {
   container: { display: "flex", justifyContent: "center", alignItems: "center", height: "80vh", width: "100%" },
@@ -172,8 +178,55 @@ const styles = {
   buttonGroup: { display: "flex", justifyContent: "space-between", marginTop: "15px" },
   rejectButton: { background: "red", color: "white", border: "none", padding: "10px", width: "48%", borderRadius: "5px", cursor: "pointer" },
   acceptButton: { background: "green", color: "white", border: "none", padding: "10px", width: "48%", borderRadius: "5px", cursor: "pointer" },
-  emptyCard: {background: "white", borderRadius: "8px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", width: "600px", height: "500px", padding: "20px", overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center"
+  emptyCard: {background: "white", borderRadius: "8px", boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)", width: "600px", height: "500px", padding: "20px", overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center"},
+  fullscreenOverlay: {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100vw",
+  height: "100vh",
+  backgroundColor: "rgba(0, 0, 0, 0.6)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000
+},
+validationModal: {
+  backgroundColor: "#fff",
+  padding: "30px",
+  borderRadius: "10px",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
+  minWidth: "300px",
+  maxWidth: "500px",
+  width: "80%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center"
+},
+input: {
+  padding: "8px",
+  borderRadius: "4px",
+  border: "1px solid #ccc",
+  marginLeft: "10px",
+  width: "220px"
+},
+cancelButton: {
+  background: "gray",
+  color: "white",
+  padding: "10px 20px",
+  border: "none",
+  borderRadius: "5px",
+  cursor: "pointer"
+},
+submitButton: {
+  background: "blue",
+  color: "white",
+  padding: "10px 20px",
+  border: "none",
+  borderRadius: "5px",
+  cursor: "pointer"
 }
+
 };
 
 export default ProfileCard;
