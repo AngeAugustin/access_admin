@@ -63,7 +63,7 @@ const DetailsReclamation = () => {
             Informations sur la réclamation
           </p>
         </div>
-          <Link to="/vendre">
+          <Link to="/reclamations">
             <button
               style={{
                 backgroundColor: "#004aad",
