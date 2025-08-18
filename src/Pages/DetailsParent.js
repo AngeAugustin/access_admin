@@ -117,7 +117,7 @@ const DetailsParent = () => {
             <h3 style={{ color: "#004aad", fontSize: "16px" }}>Mes éducateurs </h3>
             <ul>
               {educateurs.map((educateur, index) => (
-                <li key={index}>{educateur.Name} {educateur.Firstname} - {educateur.Matiere}</li>
+                <li key={index}>{educateur.Name} {educateur.Firstname} - {educateur.Matiere} - {educateur.Statut_tutorat}</li>
               ))}
             </ul>
           </div>

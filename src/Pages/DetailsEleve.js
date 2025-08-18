@@ -88,7 +88,8 @@ const DetailsEleve = () => {
           {/* Informations */}
           <div>
             <h3 style={{ color: "#004aad", fontSize: "16px" }}>Quelques informations</h3>
-            <p><strong>Parent : </strong> {details.Parent_tuteur}</p>
+            <p><strong>Classe précédente : </strong> {details.Classe_precedente}</p>
+            <p><strong>Établissement précédent : </strong> {details.Ecole_precedente}</p>
             <p><strong>Classe Actuelle : </strong> {details.Classe_actuelle}</p>
             <p><strong>Établissement Actuel : </strong> {details.Ecole_actuelle}</p>
           </div>
@@ -119,34 +120,95 @@ const DetailsEleve = () => {
         <div style={overlayStyle}>
           <div style={modalStyle}>
             <h2 style={{ color: "#004aad", marginBottom: "20px", fontSize: "14px" }}>Parcours</h2>
-            <form style={{ width: '100%', maxWidth: 400 }}>
-              {[
-                { label: "Moyenne en Français", value: details.Niveau_francais },
-                { label: "Moyenne en Anglais", value: details.Niveau_anglais },
-                { label: "Moyenne en Philosophie", value: details.Niveau_philosophie },
-                { label: "Moyenne en SVT", value: details.Niveau_svt },
-                { label: "Moyenne en PCT", value: details.Niveau_pct },
-                { label: "Moyenne en Mathématiques", value: details.Niveau_mathematique },
-                { label: "Moyenne en Histoire et Géographie", value: details.Niveau_histegeo },
-                { label: "Moyenne en Allemand", value: details.Niveau_allemand },
-                { label: "Moyenne en Espagnol", value: details.Niveau_espagnol },
-                { label: "Classe précédemment fréquentée", value: details.Classe_precedente },
-                { label: "École précédemment fréquentée", value: details.Ecole_precedente },
-              ].map((field, index) => (
-                <div key={index} style={{ width: "100%", marginBottom: "10px" }}>
-                  <label style={labelStyle}>{field.label} :</label>
-                  <input
-                    type="text"
-                    value={field.value}
-                    readOnly
-                    style={inputStyle}
-                  />
-                </div>
-              ))}
+            <div style={{ width: '100%', maxWidth: 400 }}>
+              {/* Notes sous forme de badges colorés */}
+              {(() => {
+                const notes = [
+                  details.Niveau_francais,
+                  details.Niveau_anglais,
+                  details.Niveau_philosophie,
+                  details.Niveau_svt,
+                  details.Niveau_pct,
+                  details.Niveau_mathematique,
+                  details.Niveau_histegeo,
+                  details.Niveau_allemand,
+                  details.Niveau_espagnol
+                ].map(n => parseFloat(n)).filter(n => !isNaN(n));
+                const moyenne = notes.length ? (notes.reduce((a, b) => a + b, 0) / notes.length) : null;
+                let observation = "Pas d'observation disponible.";
+                let color = "#bdc3c7";
+                if (moyenne !== null) {
+                  if (moyenne >= 15) {
+                    observation = "Excellent parcours scolaire. Félicitations !";
+                    color = "#27ae60";
+                  } else if (moyenne >= 10) {
+                    observation = "Parcours scolaire satisfaisant. Peut mieux faire.";
+                    color = "#f1c40f";
+                  } else {
+                    observation = "Parcours scolaire à renforcer. Un accompagnement est conseillé.";
+                    // eslint-disable-next-line no-unused-vars
+                    color = "#e74c3c";
+                  }
+                }
+                return (
+                  <div style={{ marginBottom: "18px" }}>
+                    {/* Notes */}
+                    {[ 
+                      { label: "Français", value: details.Niveau_francais },
+                      { label: "Anglais", value: details.Niveau_anglais },
+                      { label: "Philosophie", value: details.Niveau_philosophie },
+                      { label: "SVT", value: details.Niveau_svt },
+                      { label: "PCT", value: details.Niveau_pct },
+                      { label: "Mathématiques", value: details.Niveau_mathematique },
+                      { label: "Histoire-Géo", value: details.Niveau_histegeo },
+                      { label: "Allemand", value: details.Niveau_allemand },
+                      { label: "Espagnol", value: details.Niveau_espagnol },
+                    ].map((field, idx) => (
+                      <div key={idx} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+                        <span style={{ fontSize: "14px", fontWeight: 500 }}>{field.label}</span>
+                        <span style={{
+                          display: "inline-block",
+                          minWidth: "48px",
+                          padding: "7px 0",
+                          borderRadius: "18px",
+                          textAlign: "center",
+                          fontWeight: "bold",
+                          color: "#fff",
+                          background:
+                            field.value >= 15 ? "#27ae60" :
+                            field.value >= 10 ? "#f1c40f" :
+                            field.value !== undefined && field.value !== null ? "#e74c3c" : "#bdc3c7",
+                          fontSize: "15px",
+                        }}>
+                          {field.value !== undefined && field.value !== null && field.value !== "" ? field.value : "-"}
+                        </span>
+                      </div>
+                    ))}
+                    {/* Observation générale après les notes */}
+                    <div style={{
+                      background: '#004aad',
+                      color: "#fff",
+                      borderRadius: "8px",
+                      padding: "12px 18px",
+                      fontWeight: "bold",
+                      fontSize: "15px",
+                      textAlign: "center",
+                      marginTop: "18px"
+                    }}>
+                      {observation}
+                      {moyenne !== null && (
+                        <span style={{ marginLeft: "12px", fontWeight: "normal", fontSize: "13px" }}>
+                          (Moyenne : {moyenne.toFixed(2)})
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
               <button onClick={() => setShowParcours(false)} type="button" style={closeButtonStyle}>
                 Fermer
               </button>
-            </form>
+            </div>
           </div>
         </div>
       )}
@@ -156,26 +218,67 @@ const DetailsEleve = () => {
         <div style={overlayStyle}>
           <div style={modalStyle}>
             <h2 style={{ color: "#004aad", marginBottom: "20px", fontSize: "14px" }}>Profil psychologique</h2>
-            <form style={{ width: '100%', maxWidth: 400 }}>
-              {[
-                { label: "Parent ou Tuteur", value: details.Parent_tuteur },
-                { label: "Matières préférées", value: details.Matieres_preferes },
-                { label: "Centre d'intérêts", value: details.Centre_interet },
-              ].map((field, index) => (
-                <div key={index} style={{ width: "100%", marginBottom: "10px" }}>
-                  <label style={labelStyle}>{field.label} :</label>
-                  <input
-                    type="text"
-                    value={field.value}
-                    readOnly
-                    style={inputStyle}
-                  />
+            <div style={{ width: '100%', maxWidth: 600 }}>
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "22px",
+                alignItems: "center",
+                marginBottom: "18px"
+              }}>
+                {/* Carte Parent/Tuteur */}
+                <div style={{
+                  background: "#f8f8f8",
+                  borderRadius: "12px",
+                  padding: "18px 24px",
+                  minWidth: "180px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center"
+                }}>
+                  <span style={{ fontSize: "16px", fontWeight: 600, color: "#004aad", marginBottom: "8px" }}>
+                    <span role="img" aria-label="parent">👨‍👩‍👧‍👦</span> Parent/Tuteur
+                  </span>
+                  <span style={{ fontSize: "15px", color: "#222" }}>{details.Parent_tuteur || "-"}</span>
                 </div>
-              ))}
+                {/* Carte Matières préférées */}
+                <div style={{
+                  background: "#eaf6ff",
+                  borderRadius: "12px",
+                  padding: "18px 24px",
+                  minWidth: "180px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center"
+                }}>
+                  <span style={{ fontSize: "16px", fontWeight: 600, color: "#004aad", marginBottom: "8px" }}>
+                    <span role="img" aria-label="livre">📚</span> Matières préférées
+                  </span>
+                  <span style={{ fontSize: "15px", color: "#222" }}>{details.Matieres_preferes || "-"}</span>
+                </div>
+                {/* Carte Centre d'intérêts */}
+                <div style={{
+                  background: "#fff7e6",
+                  borderRadius: "12px",
+                  padding: "18px 24px",
+                  minWidth: "180px",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center"
+                }}>
+                  <span style={{ fontSize: "16px", fontWeight: 600, color: "#004aad", marginBottom: "8px" }}>
+                    <span role="img" aria-label="étoile">⭐</span> Centres d'intérêt
+                  </span>
+                  <span style={{ fontSize: "15px", color: "#222" }}>{details.Centre_interet || "-"}</span>
+                </div>
+              </div>
               <button onClick={() => setShowProfilpsycho(false)} type="button" style={closeButtonStyle}>
                 Fermer
               </button>
-            </form>
+            </div>
           </div>
         </div>
       )}
@@ -224,23 +327,6 @@ const modalStyle = {
     msOverflowStyle: "none", // Cache la scrollbar (Edge)
   };
 
-const labelStyle = {
-  display: "block",
-  textAlign: "left",
-  marginBottom: "5px",
-  fontSize: "12px",
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "10px",
-  borderRadius: "5px",
-  border: "1px solid #ddd",
-  backgroundColor: "white",
-  textAlign: "left",
-  fontSize: "12px",
-};
-
 const closeButtonStyle = {
   marginTop: "15px",
   background: "red",
@@ -249,7 +335,7 @@ const closeButtonStyle = {
   padding: "10px 15px",
   borderRadius: "5px",
   cursor: "pointer",
-  width: "105%",
+  width: "100%",
   fontSize: "12px",
   boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)",
 };

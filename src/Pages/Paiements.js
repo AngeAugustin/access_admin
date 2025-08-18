@@ -12,6 +12,10 @@ const Paiements = () => {
   const [statutActif, setStatutActif] = useState("En attente");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
+  const [dateFilter, setDateFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const paiementsPerPage = 4;
   const { NPI } = useAuth();
 
   // Fonction à appeler pour initialiser FedaPay sur les boutons .pay-btn
@@ -134,17 +138,73 @@ const Paiements = () => {
 };
 
 
-  const paiementsFiltres = paiements.filter(
-    (p) => p.statut === statutActif
-  );
+  // Filtrer les paiements selon le statut, la recherche et la date
+  const paiementsFiltres = paiements
+    .filter((p) => p.statut === statutActif)
+    .filter((p) =>
+      (p.nom?.toLowerCase().includes(search.toLowerCase()) ||
+      p.montant?.toString().includes(search) ||
+      p.paiement?.toString().includes(search) ||
+      p.date?.toLowerCase().includes(search.toLowerCase()))
+      && (dateFilter ? (p.date && p.date.startsWith(dateFilter)) : true)
+    );
 
   return (
     <div style={{ padding: "20px" }}>
-      <div style={{ marginBottom: "20px" }}>
-        <h2 style={{ margin: 0, fontSize: 16 }}>Paiements</h2>
-        <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
-          Gérer les paiements
-        </p>
+      <div style={{ marginBottom: "20px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <h2 style={{ margin: 0, fontSize: 16 }}>Séances</h2>
+          <p style={{ color: "#555", margin: 0, paddingTop: 8, fontSize: 14 }}>
+            Gérer les séances
+          </p>
+        </div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {/* Icône calendrier + input date */}
+          <span style={{ marginRight: "8px", display: "flex", alignItems: "center" }}>
+            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#004aad" style={{ marginRight: "4px" }}>
+              <rect x="3" y="5" width="18" height="16" rx="2" strokeWidth="2" stroke="#004aad" fill="#fff"/>
+              <path d="M16 3v4M8 3v4" strokeWidth="2" stroke="#004aad"/>
+              <path d="M3 9h18" strokeWidth="2" stroke="#004aad"/>
+            </svg>
+            <input
+              type="date"
+              value={dateFilter}
+              onChange={e => setDateFilter(e.target.value)}
+              style={{
+                padding: "6px 10px",
+                borderRadius: "8px",
+                border: "1px solid #ddd",
+                fontSize: "14px",
+                outline: "none",
+                marginRight: "12px"
+              }}
+            />
+          </span>
+          {/* Icône recherche + input texte */}
+          <span style={{ display: "flex", alignItems: "center", marginLeft: "0" }}>
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#004aad" style={{ marginRight: "4px" }}>
+              <circle cx="11" cy="11" r="8" stroke="#004aad" strokeWidth="2" fill="#fff" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="#004aad" strokeWidth="2" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Rechercher..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              style={{
+                padding: "8px 14px",
+                borderRadius: "20px",
+                border: "1px solid #ddd",
+                fontSize: "14px",
+                outline: "none",
+                boxShadow: "0 1px 4px rgba(0,0,0,0.07)",
+                transition: "border 0.2s",
+                minWidth: "220px",
+                marginLeft: "0"
+              }}
+            />
+          </span>
+        </div>
       </div>
 
       <div style={{ borderBottom: "1px solid #ddd", marginBottom: "20px" }}></div>
@@ -182,85 +242,135 @@ const Paiements = () => {
       {loading && <p>Chargement des paiements...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {paiementsFiltres.map((profil) => (
-        <div
-          key={profil.id}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            backgroundColor: "#ffffff",
-            padding: "15px",
-            borderRadius: "8px",
-            fontSize: "14px",
-            marginBottom: "10px",
-            border: "1px solid #fff",
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src={profil.avatar}
-              alt="Avatar"
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                objectFit: "cover",
-                marginRight: "10px",
-              }}
-            />
-            <div>
-              <strong style={{ fontSize: 14 }}>{profil.nom}</strong>
-              <p style={{ margin: 0, color: "#666", fontSize: 12 }}>
-                {profil.montant} FCFA
-              </p>
-            </div>
-          </div>
-
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Link to={`/DetailsPaiement?ID=${profil.paiement}`}>
-              <button
-                style={{
-                  backgroundColor:
-                    profil.statut === "Payé" ? "orange" : "#004aad",
-                  color: "white",
-                  border: "none",
-                  fontWeight: "bold",
-                  padding: "10px 15px",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
-              >
-                Voir les détails
-              </button>
-            </Link>
-            {profil.statut === "En attente" && (
-              <button className="pay-btn"  
-              data-transaction-amount={profil.montant}
-              data-transaction-description="Acheter mon produit"
-              data-customer-email="johndoe@gmail.com"
-              data-customer-phone_number-number="64000001"
-              data-customer-lastname="Doe"
-              data-customer-firstname="John"
-              data-transaction-custom_metadata-paiement={profil.paiement}
-                onClick={() => initFedaPay(profil)}
-                style={{
-                  backgroundColor: "green",
-                  color: "white",
-                  border: "none",
-                  fontWeight: "bold",
-                  padding: "10px 15px",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
-              >
-                Payer
-              </button>
-            )}
-          </div>
+      {/* Liste des paiements filtrés avec pagination */}
+      {paiementsFiltres.length === 0 ? (
+        <div style={{ textAlign: "center", color: "#999", marginTop: "50px" }}>
+          <div style={{ fontSize: "50px", marginBottom: "10px" }}>⚠️</div>
+          <p style={{ fontSize: "16px" }}>Aucun paiement trouvé.</p>
         </div>
-      ))}
+      ) : (
+        <>
+          {paiementsFiltres
+            .slice((currentPage - 1) * paiementsPerPage, currentPage * paiementsPerPage)
+            .map((profil) => (
+              <div
+                key={profil.id}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  backgroundColor: "#ffffff",
+                  padding: "15px",
+                  borderRadius: "8px",
+                  fontSize: "14px",
+                  marginBottom: "10px",
+                  border: "1px solid #fff",
+                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <img
+                    src={profil.avatar}
+                    alt="Avatar"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                      marginRight: "10px",
+                    }}
+                  />
+                  <div>
+                    <strong style={{ fontSize: 14 }}>{profil.nom}</strong>
+                    <p style={{ margin: 0, color: "#666", fontSize: 12 }}>
+                      {profil.montant} FCFA
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <Link to={`/DetailsPaiement?ID=${profil.paiement}`}>
+                    <button
+                      style={{
+                        backgroundColor:
+                          profil.statut === "Payé" ? "orange" : "#004aad",
+                        color: "white",
+                        border: "none",
+                        fontWeight: "bold",
+                        padding: "10px 15px",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Voir les détails
+                    </button>
+                  </Link>
+                  {profil.statut === "En attente" && (
+                    <button className="pay-btn"  
+                    data-transaction-amount={profil.montant}
+                    data-transaction-description="Acheter mon produit"
+                    data-customer-email="johndoe@gmail.com"
+                    data-customer-phone_number-number="64000001"
+                    data-customer-lastname="Doe"
+                    data-customer-firstname="John"
+                    data-transaction-custom_metadata-paiement={profil.paiement}
+                      onClick={() => initFedaPay(profil)}
+                      style={{
+                        backgroundColor: "green",
+                        color: "white",
+                        border: "none",
+                        fontWeight: "bold",
+                        padding: "10px 15px",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Payer
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          {/* Pagination controls */}
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              style={{
+                padding: "8px 16px",
+                marginRight: "10px",
+                borderRadius: "5px",
+                border: "1px solid #004aad",
+                background: currentPage === 1 ? "#eee" : "#fff",
+                color: currentPage === 1 ? "#aaa" : "#004aad",
+                cursor: currentPage === 1 ? "not-allowed" : "pointer",
+              }}
+            >
+              Précédent
+            </button>
+            <span style={{ alignSelf: "center", fontSize: "15px", color: "#004aad" }}>
+              Page {currentPage} / {Math.max(1, Math.ceil(paiementsFiltres.length / paiementsPerPage))}
+            </span>
+            <button
+              onClick={() => setCurrentPage((prev) =>
+                prev < Math.ceil(paiementsFiltres.length / paiementsPerPage) ? prev + 1 : prev
+              )}
+              disabled={currentPage >= Math.ceil(paiementsFiltres.length / paiementsPerPage)}
+              style={{
+                padding: "8px 16px",
+                marginLeft: "10px",
+                borderRadius: "5px",
+                border: "1px solid #004aad",
+                background: currentPage >= Math.ceil(paiementsFiltres.length / paiementsPerPage) ? "#eee" : "#fff",
+                color: currentPage >= Math.ceil(paiementsFiltres.length / paiementsPerPage) ? "#aaa" : "#004aad",
+                cursor: currentPage >= Math.ceil(paiementsFiltres.length / paiementsPerPage) ? "not-allowed" : "pointer",
+              }}
+            >
+              Suivant
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
