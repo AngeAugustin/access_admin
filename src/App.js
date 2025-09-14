@@ -20,6 +20,8 @@ import DetailsEleve from './Pages/DetailsEleve';
 import DetailsSeance from './Pages/DetailsSeance';
 import ResultPay from './Pages/Resultpay';
 import Accueil from './Pages/Accueil';
+import PolitiqueEducateurs from "./Pages/Politique-educateurs";
+import PolitiqueParents from "./Pages/Politique-parents";
 import PrivateRoute from './PrivateRoute';
 import Layout from './Layout'; 
 import './index.css';
@@ -61,6 +63,8 @@ function App() {
             <Route path="DetailsReclamation" element={<DetailsReclamation />} />
             <Route path="DetailsPaiement" element={<DetailsPaiement />} />
           </Route>
+          <Route path="/politique-educateurs" element={<PolitiqueEducateurs />} />
+          <Route path="/politique-parents" element={<PolitiqueParents />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
@@ -68,3 +72,5 @@ function App() {
 }
 
 export default App;
+// Accès : http://localhost:3000/politique-educateurs
+// Accès : http://localhost:3000/politique-parents
